@@ -779,8 +779,8 @@
   <div class="agreement-group">
     <h4 class="agreement-group-title">訂購與自取時間</h4>
     <ul class="agreement-list">
-      <li><span class="mark">◆</span>預定及製作時間：至少提前一週預定，每月第三週製作。</li>
-      <li><span class="mark">◆</span>自取時段：16:30、17:00、17:30。</li>
+      <li><span class="mark">◆</span>預定及製作時間：至少提前一週預定，每月第三週週六製作。</li>
+      <li><span class="mark">◆</span>自取日期／時段：固定每月第三週週六，16:30、17:00、17:30 三個時段。</li>
     </ul>
   </div>
 
@@ -1183,11 +1183,9 @@ function showCheckout(){
         </div>
       </div>
       <div id="pickupField" style="${isDelivery?'display:none':''}">
-        <label>自取日期（每月第三週）</label>
-        <select id="pickupDay">
-          <option value="第三週週一" ${d.day==='第三週週一'?'selected':''}>第三週週一</option>
-          <option value="第三週週二" ${d.day==='第三週週二'?'selected':''}>第三週週二</option>
-        </select>
+        <label>自取日期</label>
+        <p class="ui" style="margin:4px 0 0">每月固定第三週週六</p>
+        <input type="hidden" id="pickupDay" value="第三週週六">
         <label style="margin-top:10px">自取時段</label>
         <select id="pickupSlot">
           <option value="16:30" ${d.slot==='16:30'?'selected':''}>16:30</option>
@@ -1195,6 +1193,7 @@ function showCheckout(){
           <option value="17:30" ${d.slot==='17:30'?'selected':''}>17:30</option>
         </select>
         <p class="warn-note ui" style="margin-top:10px">請自備提袋、保冰袋，工作室沒有大量包材。</p>
+        ${cakeQty() > 0 ? '<p class="warn-note ui" style="margin-top:10px">蛋糕預訂請提前一週，才能安排製作時間喔。</p>' : ''}
       </div>
       <div id="addressField" style="${isDelivery?'':'display:none'}">
         <label>宅配地址</label>
