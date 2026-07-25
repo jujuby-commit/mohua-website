@@ -1340,6 +1340,12 @@ function sendToLine(){
 
   const text = lines.join('\n');
   openLineWithMessage(text);
+
+  cart = [];
+  cardNotes = [];
+  orderDraft = null;
+  saveCardNotes();
+  saveCart();
   closeCart();
 }
 
