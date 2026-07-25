@@ -858,19 +858,18 @@ const BANK = { name: '第一銀行 (007)', account: '09310156011', holder: '陌�
 
 // LINE 電腦版無法用網址直接帶入預填訊息（line.me/R/oaMessage 只有手機能跳轉成功，電腦版會被導回 LINE 官網首頁），
 // 改成自動複製訂單文字＋開啟正確的 LINE 對話，請客人自己貼上送出
+// 注意：window.open() 一定要在點擊當下「同步」執行，等 clipboard.writeText 或 alert 跑完才開，
+// 瀏覽器會判定不是使用者直接觸發而擋下彈出視窗，導致「沒反應」
 function openLineWithMessage(text){
-  const opened = () => window.open('https://line.me/ti/p/' + LINE_OA, '_blank');
+  window.open('https://line.me/ti/p/' + LINE_OA, '_blank');
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(text).then(() => {
-      alert('訂單內容已複製，即將開啟 LINE@，請直接貼上（Ctrl+V）後送出即可。');
-      opened();
+      alert('訂單內容已複製，請在剛剛開啟的 LINE@ 對話貼上（Ctrl+V）後送出即可。');
     }).catch(() => {
       alert('自動複製失敗，請手動複製以下內容後貼到 LINE@：\n\n' + text);
-      opened();
     });
   } else {
     alert('請手動複製以下內容後貼到 LINE@：\n\n' + text);
-    opened();
   }
 }
 let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
@@ -1287,7 +1286,7 @@ function showTransfer(){
         應付總額　<b style="font-size:1.15rem">NT$${total.toLocaleString()}</b>
         <br><br>
         請於 24 小時內完成匯款至：<br>
-        <b style="font-size:1.15em">${BANK.name}｜帳號 <span style="white-space:nowrap">${BANK.account}</span>｜戶名 <span style="white-space:nowrap">${BANK.holder}</span></b><br><br>
+        <b style="font-size:1.15em">${BANK.name}｜帳號 <span style="white-space:nowrap">${BANK.account}</span><br>戶名 <span style="white-space:nowrap">${BANK.holder}</span></b><br><br>
         匯款後請填寫「匯款帳號後五碼」並送出，收到陌花回覆貼圖即代表訂購成功。逾時未付款訂單將自動取消。
       </div>
       <div>
