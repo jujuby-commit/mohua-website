@@ -36,7 +36,7 @@
 
     <div class="hero-promo">
       <p class="hero-promo-tag">中秋禮盒・月嶼林棲</p>
-      <p class="hero-promo-text">現正預購中，8/31 前下單享早鳥 9 折</p>
+      <p class="hero-promo-text">現正預購中，8/15 前下單享早鳥價</p>
       <a href="#shop" class="hero-cta ui outline" onclick="switchTab('midautumn')">看中秋禮盒 →</a>
     </div>
 
@@ -218,7 +218,7 @@
       </div>
     </div>
 
-    <p class="item-note" style="margin-top:8px">退冰即可享用，回烤風味更佳。中秋禮盒現正預購中，<b>8/31 前下單享早鳥 9 折</b>，之後恢復原價；實際預購截止與自取安排請以發文公告為準。</p>
+    <p class="item-note" style="margin-top:8px">退冰即可享用，回烤風味更佳。中秋禮盒現正預購中，<b>8/15 前下單享早鳥價</b>，之後恢復原價；自取日為 9/20，選擇宅配的訂單將於 9/21 統一以黑貓冷凍宅配寄出，實際安排請以發文公告為準。</p>
   </div>
 
   <!-- 大尺吋蛋糕 -->
@@ -1024,10 +1024,10 @@ function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
 function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
 function pickupOpen(){ return activePickupDates().length > 0; }
 
-// 中秋禮盒早鳥優惠：8/31（含當天）前下單享 9 折，之後恢復原價；實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
-const MIDAUTUMN_EARLYBIRD_DEADLINE = '2026-08-31T23:59:59+08:00';
+// 中秋禮盒早鳥優惠：8/15（含當天）前下單享 9 折，之後恢復原價；實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
+const MIDAUTUMN_EARLYBIRD_DEADLINE = '2026-08-15T23:59:59+08:00';
 function isMidAutumnEarlyBird(){ return new Date() <= new Date(MIDAUTUMN_EARLYBIRD_DEADLINE); }
-function midAutumnPrice(base){ return isMidAutumnEarlyBird() ? Math.round(base*0.9/10)*10 : base; }
+function midAutumnPrice(base){ return isMidAutumnEarlyBird() ? base - 50 : base; }
 function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, midAutumnPrice(basePrice)); }
 function renderMidAutumnPricing(){
   const items = [
@@ -1039,7 +1039,7 @@ function renderMidAutumnPricing(){
     const el = document.getElementById('price-' + it.id);
     if(!el) return;
     el.innerHTML = earlyBird
-      ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-size:.82em">NT$${it.base}</span> NT$${midAutumnPrice(it.base)}　<span style="color:var(--accent);font-size:.78em">早鳥9折</span>`
+      ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-size:.82em">NT$${it.base}</span> NT$${midAutumnPrice(it.base)}　<span style="color:var(--accent);font-size:.78em">享早鳥價</span>`
       : `NT$${it.base}`;
   });
 }
