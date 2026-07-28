@@ -271,6 +271,7 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
 .co-form textarea{resize:vertical;min-height:60px}
 .radio-row{display:flex;gap:16px;font-size:.88rem;flex-wrap:wrap}
 .radio-row label{display:flex;align-items:center;gap:6px;color:var(--ink);margin:0}
+.radio-row label.radio-disabled{color:var(--ink-soft);cursor:not-allowed}
 .back-link{background:none;border:none;color:var(--ink-soft);font-size:.82rem;cursor:pointer;text-decoration:underline;margin-bottom:14px}
 
 /* 結帳表單浮動 label：輸入框內建提示文字，聚焦或已填寫時往上浮動縮小 */

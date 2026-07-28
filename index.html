@@ -1048,8 +1048,10 @@ function feeBreakdownLines(pickup){
   return lines;
 }
 
+// 「工作室自取」這個選項一律都在清單裡（額滿也不從清單消失，只是變成不能選＋標示已額滿），
+// 跟個別日期額滿「列出來但標灰」的原則一致，不要為了省事又改回直接隱藏
 function availableDeliveryMethods(){
-  const pickup = pickupOpen() ? ['工作室自取'] : [];
+  const pickup = ['工作室自取'];
   if(isSplitNeeded()) return [...pickup, SPLIT_DELIVERY];
   if(hasTaro()) return [...pickup, '冷藏宅配'];
   if(hasFrozenRequiredItem()) return [...pickup, '黑貓冷凍宅配'];
@@ -1206,13 +1208,18 @@ function showCheckout(){
   const d = orderDraft || {};
   const taro = hasTaro();
   const methods = availableDeliveryMethods();
-  const selected = methods.includes(d.pickup) ? d.pickup : methods[0];
+  const pickupSelectable = pickupOpen();
+  const selectableMethods = pickupSelectable ? methods : methods.filter(m => m !== '工作室自取');
+  const selected = selectableMethods.includes(d.pickup) ? d.pickup : selectableMethods[0];
   const isDelivery = selected !== '工作室自取';
   const pickupDates = activePickupDates();
   const selectedDate = pickupDates.some(pd => pd.label === d.day) ? d.day : (pickupDates[0] ? pickupDates[0].label : '');
-  const radiosHtml = methods.map(m =>
-    `<label><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} onchange="togglePickupSlot()"> ${m}</label>`
-  ).join('');
+  const radiosHtml = methods.map(m => {
+    const isPickup = m === '工作室自取';
+    const disabled = isPickup && !pickupSelectable;
+    const suffix = disabled ? '（已額滿）' : '';
+    return `<label class="${disabled?'radio-disabled':''}"><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} ${disabled?'disabled':''} onchange="togglePickupSlot()"> ${m}${suffix}</label>`;
+  }).join('');
   const cakeWarn = cakeQty() > 0
     ? '<br><br>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。'
     : '';
