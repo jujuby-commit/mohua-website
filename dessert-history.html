@@ -64,6 +64,29 @@ a{color:inherit}
 
 .label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 
+/* ---------- site top nav (matches index.html / course.html) ---------- */
+.topnav{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topnav-inner{max-width:1100px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.topnav .brand{font-weight:600;font-size:1.1rem;letter-spacing:.03em;text-decoration:none;white-space:nowrap;flex-shrink:0;color:var(--ink)}
+.topnav .nav-links{display:flex;gap:12px;font-size:.82rem;flex-shrink:1;min-width:0}
+.topnav .nav-links a{text-decoration:none;color:var(--ink-soft);white-space:nowrap}
+.topnav .nav-links a:hover,.topnav .nav-links a.active{color:var(--accent)}
+.topnav .cart-btn{
+  background:var(--paper-shade);border:1px solid var(--line);border-radius:999px;
+  padding:8px 14px;font-size:.8rem;color:var(--ink);white-space:nowrap;flex-shrink:0;text-decoration:none;
+}
+@media (max-width:640px){
+  .topnav-inner{padding:12px 18px}
+  .topnav .brand{font-size:.95rem}
+  .topnav .nav-links{gap:9px;font-size:.76rem}
+  .topnav .cart-btn{display:none}
+}
+
 .rail{max-width:1100px;margin:0 auto;padding:0 32px}
 .rail.narrow{max-width:660px}
 
@@ -239,9 +262,23 @@ article .body strong{color:var(--accent);font-weight:700}
 .pager .next{text-align:right;margin-left:auto}
 </style>
 
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="index.html">陌花 MOHUA</a>
+    <div class="nav-links">
+      <a href="index.html#story">故事</a>
+      <a href="index.html#shop">甜點</a>
+      <a href="index.html#agreement">公約</a>
+      <a href="dessert-history.html" class="active">甜點世界史</a>
+      <a href="course.html">課程</a>
+      <a href="index.html#visit">聯繫</a>
+    </div>
+    <a class="cart-btn" href="index.html#shop">購物車</a>
+  </div>
+</nav>
+
 <div id="index-view">
   <div class="rail">
-    <a class="back" href="index.html" style="margin:24px 0 0">← 回到陌花官網</a>
     <div class="masthead">
       <h1>世界甜點史</h1>
       <span class="meta">陌花 LAB　·　83 篇　·　@mohua.lab_ile</span>
