@@ -1024,22 +1024,27 @@ function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
 function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
 function pickupOpen(){ return activePickupDates().length > 0; }
 
-// 中秋禮盒早鳥優惠：8/15（含當天）前下單享 9 折，之後恢復原價；實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
+// 中秋禮盒早鳥優惠：8/15（含當天）前下單享統一 95 折，之後恢復原價；單入酥餅份量小、單價低不參與早鳥，實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
 const MIDAUTUMN_EARLYBIRD_DEADLINE = '2026-08-15T23:59:59+08:00';
+const MIDAUTUMN_EARLYBIRD_RATE = 0.95;
+const MIDAUTUMN_EARLYBIRD_EXCLUDE = ['sesame-mochi-1'];
 function isMidAutumnEarlyBird(){ return new Date() <= new Date(MIDAUTUMN_EARLYBIRD_DEADLINE); }
-function midAutumnPrice(base){ return isMidAutumnEarlyBird() ? base - 50 : base; }
-function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, midAutumnPrice(basePrice)); }
+function midAutumnPrice(id, base){
+  if(!isMidAutumnEarlyBird() || MIDAUTUMN_EARLYBIRD_EXCLUDE.includes(id)) return base;
+  return Math.round(base * MIDAUTUMN_EARLYBIRD_RATE / 10) * 10;
+}
+function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, midAutumnPrice(id, basePrice)); }
 function renderMidAutumnPricing(){
   const items = [
     {id:'mooncake-4', base:660}, {id:'mooncake-6', base:980},
     {id:'sesame-mochi-1', base:130}, {id:'sesame-mochi-6', base:760},
   ];
-  const earlyBird = isMidAutumnEarlyBird();
   items.forEach(it => {
     const el = document.getElementById('price-' + it.id);
     if(!el) return;
-    el.innerHTML = earlyBird
-      ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-size:.82em">NT$${it.base}</span> NT$${midAutumnPrice(it.base)}　<span style="color:var(--accent);font-size:.78em">享早鳥價</span>`
+    const price = midAutumnPrice(it.id, it.base);
+    el.innerHTML = (price !== it.base)
+      ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-size:.82em">NT$${it.base}</span> NT$${price}　<span style="color:var(--accent);font-size:.78em">享早鳥價</span>`
       : `NT$${it.base}`;
   });
 }
