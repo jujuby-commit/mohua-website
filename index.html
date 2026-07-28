@@ -857,6 +857,19 @@
 const LINE_OA = '@818rntfj';
 const BANK = { name: '第一銀行 (007)', account: '09310156011', holder: '陌花工作室' };
 
+function copyBankAccount(btn){
+  if(!navigator.clipboard || !navigator.clipboard.writeText){
+    alert('自動複製失敗，請手動複製帳號：' + BANK.account);
+    return;
+  }
+  navigator.clipboard.writeText(BANK.account).then(() => {
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 1400);
+  }).catch(() => {
+    alert('自動複製失敗，請手動複製帳號：' + BANK.account);
+  });
+}
+
 // LINE 電腦版無法用網址直接帶入預填訊息（line.me/R/oaMessage 只有手機能跳轉成功，電腦版會被導回 LINE 官網首頁），
 // 改成自動複製訂單文字＋開啟正確的 LINE 對話，請客人自己貼上送出
 // 注意：window.open() 一定要在點擊當下「同步」執行，等 clipboard.writeText 或 alert 跑完才開，
@@ -906,12 +919,21 @@ function addToCart(id, name, price){
   saveCart();
   openCart();
 }
+// 數量變動時讓數字跳一下再彈回，純視覺回饋；renderCart() 每次都會整段重繪，所以在 saveCart() 之後、
+// 新的 DOM 元素已經存在時才能加 class 觸發 transition
+function popQty(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.classList.add('pop');
+  setTimeout(() => el.classList.remove('pop'), 320);
+}
 function changeQty(id, delta){
   const item = cart.find(i => i.id === id);
   if(!item) return;
   item.qty += delta;
   if(item.qty <= 0){ cart = cart.filter(i => i.id !== id); }
   saveCart();
+  popQty('qty-' + id);
 }
 function setQty(id, value){
   const n = parseInt(value, 10);
@@ -919,6 +941,7 @@ function setQty(id, value){
   if(!item) return;
   if(!n || n <= 0){ cart = cart.filter(i => i.id !== id); } else { item.qty = n; }
   saveCart();
+  popQty('qty-' + id);
 }
 function removeItem(id){ cart = cart.filter(i => i.id !== id); saveCart(); }
 
@@ -931,6 +954,7 @@ function setAddonQty(id, name, price, delta){
     cart.push({id, name, price, qty:1});
   }
   saveCart();
+  popQty('qtyaddon-' + id);
 }
 
 const BUNDLE_GROUPS = [
@@ -1114,7 +1138,7 @@ function renderCart(){
         <span>加購｜曲線蠟燭<span class="note ui">　插在蛋糕上，增添生日氣氛</span></span>
         <div class="qty-stepper">
           <button onclick="setAddonQty('candle','加購｜曲線蠟燭',10,-1)">−</button>
-          <span>${(cart.find(i=>i.id==='candle')||{qty:0}).qty}</span>
+          <span id="qtyaddon-candle" class="qty-count">${(cart.find(i=>i.id==='candle')||{qty:0}).qty}</span>
           <button onclick="setAddonQty('candle','加購｜曲線蠟燭',10,1)">＋</button>
         </div>
       </div>
@@ -1134,7 +1158,7 @@ function renderCart(){
         <span>折口牛皮紙袋　NT$10</span>
         <div class="qty-stepper">
           <button onclick="setAddonQty('bag','加購｜牛皮紙袋',10,-1)">−</button>
-          <span>${(cart.find(i=>i.id==='bag')||{qty:0}).qty}</span>
+          <span id="qtyaddon-bag" class="qty-count">${(cart.find(i=>i.id==='bag')||{qty:0}).qty}</span>
           <button onclick="setAddonQty('bag','加購｜牛皮紙袋',10,1)">＋</button>
         </div>
       </div>
@@ -1142,7 +1166,7 @@ function renderCart(){
         <span>紙盒　NT$20</span>
         <div class="qty-stepper">
           <button onclick="setAddonQty('box','加購｜紙盒',20,-1)">−</button>
-          <span>${(cart.find(i=>i.id==='box')||{qty:0}).qty}</span>
+          <span id="qtyaddon-box" class="qty-count">${(cart.find(i=>i.id==='box')||{qty:0}).qty}</span>
           <button onclick="setAddonQty('box','加購｜紙盒',20,1)">＋</button>
         </div>
       </div>
@@ -1164,7 +1188,7 @@ function renderCart(){
         <p class="ci-price">NT$${i.price} / 份</p>
         <div class="qty-stepper">
           <button onclick="changeQty('${i.id}',-1)">−</button>
-          <input type="number" min="1" value="${i.qty}" onchange="setQty('${i.id}', this.value)" style="width:48px;text-align:center;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-family:inherit;font-size:.9rem">
+          <input type="number" id="qty-${i.id}" class="qty-count" min="1" value="${i.qty}" onchange="setQty('${i.id}', this.value)" style="width:48px;text-align:center;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-family:inherit;font-size:.9rem">
           <button onclick="changeQty('${i.id}',1)">＋</button>
         </div>
       </div>
@@ -1217,17 +1241,19 @@ function showCheckout(){
         ${cakeQty() > 0 ? '<p class="warn-note ui" style="margin-top:10px">蛋糕預訂請提前一週，才能安排製作時間喔。</p>' : ''}
       </div>
       <div id="addressField" style="${isDelivery?'':'display:none'}">
-        <label>宅配地址</label>
-        <input type="text" id="custAddress" value="${d.address||''}" placeholder="請填寫完整收件地址">
+        <div class="field">
+          <input type="text" id="custAddress" value="${d.address||''}" placeholder=" ">
+          <label>宅配地址</label>
+        </div>
         <p class="warn-note ui" id="deliveryNote" style="margin-top:10px">${deliveryNoteFor(selected)}${cakeWarn}</p>
       </div>
-      <div>
+      <div class="field">
+        <input type="text" id="custName" value="${d.name||''}" placeholder=" ">
         <label>姓名</label>
-        <input type="text" id="custName" value="${d.name||''}" placeholder="怎麼稱呼您">
       </div>
-      <div>
+      <div class="field">
+        <input type="tel" id="custContact" value="${d.contact||''}" placeholder=" ">
         <label>聯絡方式</label>
-        <input type="tel" id="custContact" value="${d.contact||''}" placeholder="電話或其他聯絡方式">
       </div>
       <div>
         <label>備註（過敏原、用途等）</label>
@@ -1306,12 +1332,12 @@ function showTransfer(){
         應付總額　<b style="font-size:1.15rem">NT$${total.toLocaleString()}</b>
         <br><br>
         請於 24 小時內完成匯款至：<br>
-        <b style="font-size:1.15em">${BANK.name}｜帳號 <span style="white-space:nowrap">${BANK.account}</span><br>戶名 <span style="white-space:nowrap">${BANK.holder}</span></b><br><br>
+        <b style="font-size:1.15em">${BANK.name}｜帳號 <span style="white-space:nowrap">${BANK.account}</span><button type="button" class="copy-btn" onclick="copyBankAccount(this)" aria-label="複製帳號"><span class="copy-icon"><svg class="ic-copy" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="8" height="8" rx="1.5"/><path d="M3.5 10.5V3.5a1 1 0 0 1 1-1H11"/></svg><svg class="ic-check" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg></span></button><br>戶名 <span style="white-space:nowrap">${BANK.holder}</span></b><br><br>
         匯款後請填寫「匯款帳號後五碼」並送出，收到陌花回覆貼圖即代表訂購成功。逾時未付款訂單將自動取消。
       </div>
-      <div>
+      <div class="field">
+        <input type="text" id="last5" placeholder=" " maxlength="5">
         <label>匯款帳號後五碼</label>
-        <input type="text" id="last5" placeholder="例如：56011" maxlength="5">
       </div>
       <p class="item-note">使用電腦瀏覽器的朋友，建議先用手機 LINE 加陌花為好友（<a href="https://line.me/ti/p/@818rntfj" target="_blank">@818rntfj</a>），送出時才不會卡在加好友的 QR Code 畫面。</p>
       <button class="checkout-btn" onclick="sendToLine()">確認送出到 LINE@</button>
