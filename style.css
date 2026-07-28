@@ -71,6 +71,15 @@ h1.name{font-size:clamp(2rem,6vw,2.6rem);margin:0 0 14px;font-weight:600}
 .lede.soft{color:var(--ink-soft);font-size:.95rem}
 .hero-cta{display:inline-block;margin-top:8px;background:var(--accent);color:#fff;padding:10px 24px;border-radius:999px;font-size:.85rem;text-decoration:none}
 .hero-cta:hover{opacity:.9}
+.hero-cta.outline{background:transparent;border:1px solid rgba(255,255,255,.75);color:#fff;margin-top:0}
+
+/* 首頁 hero 中的中秋禮盒宣傳卡 */
+.hero-promo{
+  display:inline-block; margin:14px 0 4px; padding:14px 18px;
+  border-radius:14px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.28);
+}
+.hero-promo-tag{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#e6d3ae;margin:0 0 6px}
+.hero-promo-text{font-family:Georgia,serif;font-style:italic;color:#fff;font-size:.95rem;margin:0 0 12px}
 @media (max-width:600px){.hero-media{height:78vh;min-height:420px}}
 
 /* ---------- simple page header (subpages) ---------- */

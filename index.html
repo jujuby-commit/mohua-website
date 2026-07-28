@@ -33,7 +33,14 @@
     <p class="eyebrow ui">MOHUA DESSERT STUDIO</p>
     <h1 class="name">老派日常裡的浪漫撒野</h1>
     <p class="lede">陌花 MOHUA，一間專注手作、需要提前預訂的甜點工作室。</p>
-    <a href="#shop" class="hero-cta ui">看甜點 →</a>
+
+    <div class="hero-promo">
+      <p class="hero-promo-tag">中秋禮盒・月嶼林棲</p>
+      <p class="hero-promo-text">現正預購中，8/31 前下單享早鳥 9 折</p>
+      <a href="#shop" class="hero-cta ui outline" onclick="switchTab('midautumn')">看中秋禮盒 →</a>
+    </div>
+
+    <a href="#shop" class="hero-cta ui">看全部甜點 →</a>
   </div>
 </header>
 
@@ -169,8 +176,8 @@
           <h3>四入嚐鮮組合</h3>
           <p class="desc">口味各一，先嚐鮮再決定送禮組合。</p>
           <div class="price-row">
-            <span class="price ui">NT$660</span>
-            <button class="add-btn ui" onclick="addToCart('mooncake-4','台灣風味月餅｜四入嚐鮮組合',660)">加入購物車</button>
+            <span class="price ui" id="price-mooncake-4">NT$660</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('mooncake-4','台灣風味月餅｜四入嚐鮮組合',660)">加入購物車</button>
           </div>
         </div>
       </div>
@@ -179,8 +186,8 @@
           <h3>六入精緻禮盒</h3>
           <p class="desc">馬告杏桃×2、刺蔥檸檬×2、紅烏龍核桃×1、觀音茶南瓜子×1。</p>
           <div class="price-row">
-            <span class="price ui">NT$980</span>
-            <button class="add-btn ui" onclick="addToCart('mooncake-6','台灣風味月餅｜六入精緻禮盒',980)">加入購物車</button>
+            <span class="price ui" id="price-mooncake-6">NT$980</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('mooncake-6','台灣風味月餅｜六入精緻禮盒',980)">加入購物車</button>
           </div>
         </div>
       </div>
@@ -194,8 +201,8 @@
         <div class="body">
           <h3>單入</h3>
           <div class="price-row">
-            <span class="price ui">NT$130</span>
-            <button class="add-btn ui" onclick="addToCart('sesame-mochi-1','芝麻肉鬆麻糬酥餅（單入）',130)">加入購物車</button>
+            <span class="price ui" id="price-sesame-mochi-1">NT$130</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('sesame-mochi-1','芝麻肉鬆麻糬酥餅（單入）',130)">加入購物車</button>
           </div>
         </div>
       </div>
@@ -204,14 +211,14 @@
         <div class="body">
           <h3>六入</h3>
           <div class="price-row">
-            <span class="price ui">NT$760</span>
-            <button class="add-btn ui" onclick="addToCart('sesame-mochi-6','芝麻肉鬆麻糬酥餅（六入）',760)">加入購物車</button>
+            <span class="price ui" id="price-sesame-mochi-6">NT$760</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('sesame-mochi-6','芝麻肉鬆麻糬酥餅（六入）',760)">加入購物車</button>
           </div>
         </div>
       </div>
     </div>
 
-    <p class="item-note" style="margin-top:8px">退冰即可享用，回烤風味更佳。中秋禮盒為預購檔期商品，實際開放預購日期、自取時段與宅配安排，請以發文公告為準。</p>
+    <p class="item-note" style="margin-top:8px">退冰即可享用，回烤風味更佳。中秋禮盒現正預購中，<b>8/31 前下單享早鳥 9 折</b>，之後恢復原價；實際預購截止與自取安排請以發文公告為準。</p>
   </div>
 
   <!-- 大尺吋蛋糕 -->
@@ -1017,6 +1024,26 @@ function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
 function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
 function pickupOpen(){ return activePickupDates().length > 0; }
 
+// 中秋禮盒早鳥優惠：8/31（含當天）前下單享 9 折，之後恢復原價；實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
+const MIDAUTUMN_EARLYBIRD_DEADLINE = '2026-08-31T23:59:59+08:00';
+function isMidAutumnEarlyBird(){ return new Date() <= new Date(MIDAUTUMN_EARLYBIRD_DEADLINE); }
+function midAutumnPrice(base){ return isMidAutumnEarlyBird() ? Math.round(base*0.9/10)*10 : base; }
+function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, midAutumnPrice(basePrice)); }
+function renderMidAutumnPricing(){
+  const items = [
+    {id:'mooncake-4', base:660}, {id:'mooncake-6', base:980},
+    {id:'sesame-mochi-1', base:130}, {id:'sesame-mochi-6', base:760},
+  ];
+  const earlyBird = isMidAutumnEarlyBird();
+  items.forEach(it => {
+    const el = document.getElementById('price-' + it.id);
+    if(!el) return;
+    el.innerHTML = earlyBird
+      ? `<span style="text-decoration:line-through;color:var(--ink-soft);font-size:.82em">NT$${it.base}</span> NT$${midAutumnPrice(it.base)}　<span style="color:var(--accent);font-size:.78em">早鳥9折</span>`
+      : `NT$${it.base}`;
+  });
+}
+
 const SPLIT_DELIVERY = '宅配（自動拆單）';
 // 胡蘿蔔蛋糕（8吋整顆）、檸檬塔、Medovik 也是整顆蛋糕/塔，宅配一樣要冷凍，但運費仍走一般分級（不是每顆$250），跟 CAKE_SHIP_IDS 分開算
 const OTHER_FROZEN_IDS = ['carrot-cake-8','lemon-tart','medovik','medovik-cake'];
@@ -1244,7 +1271,7 @@ function showCheckout(){
           <option value="17:00" ${d.slot==='17:00'?'selected':''}>17:00</option>
           <option value="17:30" ${d.slot==='17:30'?'selected':''}>17:30</option>
         </select>
-        <p class="warn-note ui" style="margin-top:10px">請自備提袋、保冰袋，工作室沒有大量包材。</p>
+        <p class="warn-note ui" style="margin-top:10px">麻煩自備提袋、保冰袋，工作室包材準備得比較精簡，先跟你說一聲。</p>
         ${cakeQty() > 0 ? '<p class="warn-note ui" style="margin-top:10px">蛋糕預訂請提前一週，才能安排製作時間喔。</p>' : ''}
       </div>
       <div id="addressField" style="${isDelivery?'':'display:none'}">
@@ -1501,6 +1528,7 @@ function carouselMove(name, delta){
 
 renderCart();
 updateCustomCakeB();
+renderMidAutumnPricing();
 </script>
 
 </body>
