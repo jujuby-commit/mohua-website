@@ -348,7 +348,8 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
 
 /* 轉帳頁的匯款帳號：客人要一眼看到、好核對，所以拉大字級＋等寬數字 */
 .bank-block{margin:12px 0 6px}
-.bank-name{font-size:.9rem; color:var(--ink); margin-bottom:4px}
+/* 銀行名與戶名是同一組資訊，字級字重要一致，才不會看起來一個是標題一個是附註 */
+.bank-name{font-size:.95rem; font-weight:600; color:var(--ink); margin-bottom:4px}
 .bank-account{
   display:flex; align-items:center; gap:8px; flex-wrap:wrap;
   font-size:1.55rem; font-weight:800; letter-spacing:.05em; color:var(--ink);
