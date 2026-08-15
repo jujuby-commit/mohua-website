@@ -861,6 +861,17 @@
   </div>
 </div>
 
+<!-- ================= 蛋糕單獨下訂提醒 ================= -->
+<div class="modal-mask" id="cakeNotice" onclick="if(event.target===this) closeCakeNotice()">
+  <div class="modal-card ui" role="dialog" aria-modal="true" aria-labelledby="cakeNoticeTitle">
+    <h4 id="cakeNoticeTitle">🎂 蛋糕是單獨下訂的喔</h4>
+    <p>蛋糕可以跟其他甜點放在同一個購物車，不用分開結帳；但<b>蛋糕本身會當成獨立的一單來排</b>，製作、包裝、取貨時間都跟其他品項分開安排。</p>
+    <p>手作蛋糕需要時間醞釀，<b>請至少提前一週預訂</b>。如果你想要的日期比較趕、或想指定特定時段，可以直接問皮——時間都可以再討論。</p>
+    <p>購物車裡有一欄「蛋糕日期／時間需求」，把希望的日子寫進去就好，之後會在 LINE@ 跟你確認。</p>
+    <button class="modal-ok" onclick="closeCakeNotice()">好，我知道了</button>
+  </div>
+</div>
+
 <script>
 const LINE_OA = '@818rntfj';
 const BANK = { name: '第一銀行 (007)', account: '09310156011', holder: '陌花工作室' };
@@ -894,6 +905,44 @@ function openLineWithMessage(text){
     alert('請手動複製以下內容後貼到 LINE@：\n\n' + text);
   }
 }
+
+// 訂單同時送一份進陌花訂單後臺（Cloudflare Worker + D1）。
+// LINE 那邊是客人跟豬皮溝通的地方，後臺才是真正的訂單紀錄——購物車這裡已經把品項、
+// 折扣、運費、取貨方式全部算好了，直接整包送過去，就不用再從 LINE 對話裡逐句拼湊。
+// 這條線任何環節壞掉都不能影響客人送出訂單，所以整段吞掉錯誤、不擋流程。
+const ORDER_API = 'https://mohua-orders.jujuby117.workers.dev/api/intake';
+
+function postOrderToBackend(d, last5, rawText){
+  try{
+    const isPickup = d.pickup === '工作室自取';
+    const payload = {
+      name: d.name,
+      contact: d.contact,
+      delivery: d.pickup,
+      pickup_date: isPickup ? d.day : '',
+      pickup_slot: isPickup ? d.slot : '',
+      address: isPickup ? '' : d.address,
+      items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+      fee_lines: feeBreakdownLines(d.pickup),
+      card_notes: cardNotes.map(n => (n || '').trim()),
+      subtotal: cartTotal(),
+      shipping: deliveryFee(d.pickup),
+      total: grandTotal(d.pickup),
+      cust_note: d.note || '',
+      last5: last5,
+      raw_text: rawText
+    };
+    fetch(ORDER_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  } catch(err){
+    /* 後臺掛掉也不能擋住客人下單，靜靜跳過就好 */
+  }
+}
+
 let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
 let cardNotes = JSON.parse(localStorage.getItem('mohua_cardnotes') || '[]');
 let view = 'cart'; // 'cart' | 'checkout' | 'transfer'
@@ -1427,6 +1476,7 @@ function sendToLine(){
 
   const text = lines.join('\n');
   openLineWithMessage(text);
+  postOrderToBackend(d, last5, text);   // 一定要在清空購物車之前送
 
   cart = [];
   cardNotes = [];
