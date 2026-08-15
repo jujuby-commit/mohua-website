@@ -373,7 +373,7 @@
       </div>
     </div>
 
-    <p class="item-note">購物車裡放入蛋糕後，會自動出現曲線蠟燭加購與小卡祝福語欄位。</p>
+    <p class="item-note">蛋糕可以跟其他甜點放同一個購物車，但會當成單獨的一單來排製作與取貨時間；購物車裡放入蛋糕後，會自動出現日期／時間需求、曲線蠟燭加購與小卡祝福語欄位，時間都可以再跟皮討論。</p>
   </div>
 
   <!-- 常態甜點 -->
@@ -915,6 +915,10 @@ const ORDER_API = 'https://mohua-orders.jujuby117.workers.dev/api/intake';
 function postOrderToBackend(d, last5, rawText){
   try{
     const isPickup = d.pickup === '工作室自取';
+    // 蛋糕時間需求併進客人備註送出，後臺 schema 不用另外加欄位就看得到
+    const cakeTime = activeCakeTimeNote();
+    const custNote = [d.note || '', cakeTime ? `蛋糕日期／時間需求：${cakeTime}` : '']
+      .filter(Boolean).join('\n');
     const payload = {
       name: d.name,
       contact: d.contact,
@@ -928,7 +932,7 @@ function postOrderToBackend(d, last5, rawText){
       subtotal: cartTotal(),
       shipping: deliveryFee(d.pickup),
       total: grandTotal(d.pickup),
-      cust_note: d.note || '',
+      cust_note: custNote,
       last5: last5,
       raw_text: rawText
     };
@@ -945,8 +949,25 @@ function postOrderToBackend(d, last5, rawText){
 
 let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
 let cardNotes = JSON.parse(localStorage.getItem('mohua_cardnotes') || '[]');
+let cakeTimeNote = localStorage.getItem('mohua_caketime') || '';
 let view = 'cart'; // 'cart' | 'checkout' | 'transfer'
 let orderDraft = null;
+
+// 蛋糕單獨下訂的提醒每次「從沒有蛋糕變成有蛋糕」時跳一次就好，
+// 同一車再加第二顆不重複跳（會很煩），清空購物車或送出訂單後重置。
+// 初始值等 CAKE_IDS 宣告完才能算（const 有 TDZ），所以在下面補一行初始化，不要移到這裡
+let cakeNoticeShown = false;
+
+function saveCakeTimeNote(){ localStorage.setItem('mohua_caketime', cakeTimeNote); }
+function updateCakeTimeNote(value){ cakeTimeNote = value; saveCakeTimeNote(); }
+
+function showCakeNotice(){
+  cakeNoticeShown = true;
+  document.getElementById('cakeNotice').classList.add('open');
+}
+function closeCakeNotice(){
+  document.getElementById('cakeNotice').classList.remove('open');
+}
 
 function saveCardNotes(){ localStorage.setItem('mohua_cardnotes', JSON.stringify(cardNotes)); }
 function updateCardNote(index, value){ cardNotes[index] = value; saveCardNotes(); }
@@ -955,6 +976,9 @@ function clearCart(){
   if(!confirm('確定要清空購物車嗎？')) return;
   cart = [];
   cardNotes = [];
+  cakeTimeNote = '';
+  cakeNoticeShown = false;
+  saveCakeTimeNote();
   saveCardNotes();
   saveCart();
 }
@@ -975,6 +999,8 @@ function addToCart(id, name, price){
   if(existing){ existing.qty += 1; } else { cart.push({id, name, price, qty:1}); }
   saveCart();
   openCart();
+  // 蛋糕可以跟其他甜點放同一車，但要讓客人知道蛋糕是分開排的一單
+  if(isCakeItem(id) && !cakeNoticeShown) showCakeNotice();
 }
 // 數量變動時讓數字跳一下再彈回，純視覺回饋；renderCart() 每次都會整段重繪，所以在 saveCart() 之後、
 // 新的 DOM 元素已經存在時才能加 class 觸發 transition
@@ -1042,10 +1068,14 @@ const CAKE_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-
 const CAKE_SHIP_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-control8','yuzu-sesame6','yuzu-sesame8','seasonal-fruit6','seasonal-fruit8'];
 const TARO_ID = 'taro-bento';
 function isCakeItem(id){ return CAKE_IDS.includes(id) || id.startsWith('custom-cake-'); }
+// 上次逛到一半留在購物車裡的蛋糕，重新整理後不要再跳一次提醒
+cakeNoticeShown = cart.some(i => isCakeItem(i.id));
 function isCakeShipItem(id){ return CAKE_SHIP_IDS.includes(id) || id.startsWith('custom-cake-'); }
 function hasTaro(){ return cart.some(i => i.id === TARO_ID); }
 function cakeQty(){ return cart.filter(i => isCakeItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
 function cakeShipQty(){ return cart.filter(i => isCakeShipItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
+// 蛋糕被移光之後，之前打的時間需求就不該再跟著訂單跑出去，統一從這裡取值
+function activeCakeTimeNote(){ return cakeQty() > 0 ? cakeTimeNote.trim() : ''; }
 function otherSubtotal(){ return cart.filter(i => !isCakeShipItem(i.id)).reduce((s,i)=> s+i.price*i.qty, 0) - totalBundleDiscount(); }
 function tieredFee(subtotal){ if(subtotal <= 0) return 0; return subtotal >= 4000 ? 290 : 250; }
 
@@ -1218,6 +1248,14 @@ function renderCart(){
     if(cardNotes.length > n){ cardNotes.length = n; saveCardNotes(); }
     addonRow += `
     <div class="addon-row">
+      <p class="warn-note ui" style="margin-bottom:14px">
+        <b>🎂 蛋糕是單獨下訂的一單</b><br>
+        可以跟其他甜點一起結帳，但蛋糕的製作與取貨時間會分開安排，請至少提前一週預訂。時間如果不好喬，直接問皮，都可以討論。
+      </p>
+      <div style="margin-bottom:14px">
+        <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕日期／時間需求（選填，之後會在 LINE@ 跟你確認）</label>
+        <input type="text" maxlength="60" placeholder="例如：希望 9/20 前拿到，或想約週末下午" value="${cakeTimeNote.replace(/"/g,'&quot;')}" oninput="updateCakeTimeNote(this.value)" class="flavor-select ui" style="width:100%">
+      </div>
       <div class="addon-item" style="margin-bottom:10px">
         <span>加購｜曲線蠟燭<span class="note ui">　插在蛋糕上，增添生日氣氛</span></span>
         <div class="qty-stepper">
@@ -1413,6 +1451,8 @@ function showTransfer(){
         取貨方式：${pickupLine}<br>
         姓名：${d.name}｜聯絡方式：${d.contact}
         ${d.note ? `<br>備註：${d.note}` : ''}
+        ${activeCakeTimeNote() ? `<br>蛋糕日期／時間需求：${activeCakeTimeNote()}` : ''}
+        ${cakeQty() > 0 ? '<br><br><b>🎂 蛋糕為單獨下訂，製作與取貨時間會另外跟你確認。</b>' : ''}
       </div>
       <div class="warn-note ui">
         商品小計　NT$${cartTotal().toLocaleString()}
@@ -1420,8 +1460,13 @@ function showTransfer(){
         <br><br>
         應付總額　<b style="font-size:1.15rem">NT$${total.toLocaleString()}</b>
         <br><br>
-        請於 24 小時內完成匯款至：<br>
-        <b style="font-size:1.15em">${BANK.name}｜帳號 <span style="white-space:nowrap">${BANK.account}</span><button type="button" class="copy-btn" onclick="copyBankAccount(this)" aria-label="複製帳號"><span class="copy-icon"><svg class="ic-copy" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="8" height="8" rx="1.5"/><path d="M3.5 10.5V3.5a1 1 0 0 1 1-1H11"/></svg><svg class="ic-check" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg></span></button><br>戶名 <span style="white-space:nowrap">${BANK.holder}</span></b><br><br>
+        請於 24 小時內完成匯款至：
+        <div class="bank-block">
+          <div class="bank-name">${BANK.name}</div>
+          <div class="bank-account"><span style="white-space:nowrap">${BANK.account}</span><button type="button" class="copy-btn" onclick="copyBankAccount(this)" aria-label="複製帳號"><span class="copy-icon"><svg class="ic-copy" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="8" height="8" rx="1.5"/><path d="M3.5 10.5V3.5a1 1 0 0 1 1-1H11"/></svg><svg class="ic-check" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg></span></button></div>
+          <div class="bank-holder">戶名　<span style="white-space:nowrap">${BANK.holder}</span></div>
+        </div>
+        <br>
         匯款後請填寫「匯款帳號後五碼」並送出，收到陌花回覆貼圖即代表訂購成功。逾時未付款訂單將自動取消。
       </div>
       <div class="field">
@@ -1465,6 +1510,11 @@ function sendToLine(){
   lines.push(`姓名：${d.name}`);
   lines.push(`聯絡方式：${d.contact}`);
   if(d.note) lines.push(`備註：${d.note}`);
+  if(cakeQty() > 0){
+    lines.push('');
+    lines.push('🎂 蛋糕為單獨下訂（製作與取貨時間另外確認）');
+    if(activeCakeTimeNote()) lines.push(`蛋糕日期／時間需求：${activeCakeTimeNote()}`);
+  }
   if(cardNotes.some(n => n && n.trim())){
     lines.push('');
     lines.push('小卡留言：');
@@ -1480,7 +1530,10 @@ function sendToLine(){
 
   cart = [];
   cardNotes = [];
+  cakeTimeNote = '';
+  cakeNoticeShown = false;
   orderDraft = null;
+  saveCakeTimeNote();
   saveCardNotes();
   saveCart();
   closeCart();

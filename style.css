@@ -348,3 +348,7 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
   font-variant-numeric:tabular-nums; line-height:1.3;
 }
 .bank-holder{font-size:.95rem; font-weight:600; color:var(--ink); margin-top:6px}
+/* 帳號字放大後，旁邊的複製鈕也要跟著長大一點才不會顯得縮在角落 */
+.bank-account .copy-btn{width:30px; height:30px}
+.bank-account .copy-icon{width:16px; height:16px}
+.bank-account .copy-icon svg{width:16px; height:16px}
