@@ -373,7 +373,7 @@
       </div>
     </div>
 
-    <p class="item-note">蛋糕可以跟其他甜點放同一個購物車，但會當成單獨的一單來排製作與取貨時間；購物車裡放入蛋糕後，會自動出現日期／時間需求、曲線蠟燭加購與小卡祝福語欄位，時間都可以再跟皮討論。</p>
+    <p class="item-note"><b>蛋糕需要單獨下單呦!</b> 麻煩需要與其他甜點分開下單:)（一次訂好幾顆蛋糕沒問題）。購物車裡放入蛋糕後，會出現日期／時間需求、曲線蠟燭加購與小卡祝福語欄位。</p>
   </div>
 
   <!-- 常態甜點 -->
@@ -798,13 +798,17 @@
     <div class="fee-table-wrap">
       <table class="fee-table">
         <tr><th>商品類型</th><th>可選取貨方式</th><th>運費怎麼算</th></tr>
-        <tr><td>大尺吋蛋糕</td><td>自取／黑貓冷凍宅配</td><td>每顆 NT$250（2 顆 NT$500，以此類推），與其他品項分開出貨、分開算運費</td></tr>
-        <tr><td>禮盒／餅乾／司康／Medovik 等</td><td>自取／黑貓冷凍宅配</td><td>訂單滿 NT$4,000 收 NT$290，不滿收 NT$250</td></tr>
+        <tr><td>大尺吋蛋糕</td><td>自取／黑貓冷凍宅配</td><td>每顆 <b>NT$250</b>（2 顆 <b>NT$500</b>，以此類推），與其他品項<b>分開下單、分開算運費</b></td></tr>
+        <tr><td>禮盒／餅乾／司康／Medovik 等</td><td>自取／黑貓冷凍宅配</td><td>訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b></td></tr>
         <tr><td>水果盒</td><td>自取／黑貓冷凍宅配／冷藏宅配</td><td>同上分級費率；冷凍退冰易出水，建議自取或冷藏宅配風味最佳</td></tr>
         <tr><td>芋泥便當</td><td>自取／冷藏宅配（不支援冷凍）</td><td>同上分級費率；可與其他商品一起裝箱冷藏宅配</td></tr>
       </table>
     </div>
-    <p class="warn-note ui" style="margin-top:14px">宅配過程碰撞風險由客戶自行承擔，蛋糕尤其容易因晃動造成變形或裂痕，恕無法退換；週日、國定假日、颱風天不配送。若非常在意賣相，建議選擇工作室自取。</p>
+    <p class="warn-note ui" style="margin-top:14px">
+      <b>＊注意</b><br>
+      <b>宅配皆有毀損風險，週日、國定假日、颱風天不配送，請完美主義者評估後再選擇此方式。</b><br>
+      <b>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。</b>
+    </p>
   </div>
 
   <div class="agreement-group">
@@ -864,11 +868,9 @@
 <!-- ================= 蛋糕單獨下訂提醒 ================= -->
 <div class="modal-mask" id="cakeNotice" onclick="if(event.target===this) closeCakeNotice()">
   <div class="modal-card ui" role="dialog" aria-modal="true" aria-labelledby="cakeNoticeTitle">
-    <h4 id="cakeNoticeTitle">🎂 蛋糕是單獨下訂的喔</h4>
-    <p>蛋糕可以跟其他甜點放在同一個購物車，不用分開結帳；但<b>蛋糕本身會當成獨立的一單來排</b>，製作、包裝、取貨時間都跟其他品項分開安排。</p>
-    <p>手作蛋糕需要時間醞釀，<b>請至少提前一週預訂</b>。如果你想要的日期比較趕、或想指定特定時段，可以直接問皮——時間都可以再討論。</p>
-    <p>購物車裡有一欄「蛋糕日期／時間需求」，把希望的日子寫進去就好，之後會在 LINE@ 跟你確認。</p>
-    <button class="modal-ok" onclick="closeCakeNotice()">好，我知道了</button>
+    <h4 id="cakeNoticeTitle">🎂 蛋糕需要單獨下單呦!</h4>
+    <p>麻煩需要與其他甜點分開下單:)</p>
+    <button class="modal-ok" onclick="closeCakeNotice()">好</button>
   </div>
 </div>
 
@@ -953,9 +955,8 @@ let cakeTimeNote = localStorage.getItem('mohua_caketime') || '';
 let view = 'cart'; // 'cart' | 'checkout' | 'transfer'
 let orderDraft = null;
 
-// 蛋糕單獨下訂的提醒每次「從沒有蛋糕變成有蛋糕」時跳一次就好，
-// 同一車再加第二顆不重複跳（會很煩），清空購物車或送出訂單後重置。
-// 初始值等 CAKE_IDS 宣告完才能算（const 有 TDZ），所以在下面補一行初始化，不要移到這裡
+// 混車提醒跳一次就好，之後同一車再加東西不重複跳（會很煩）；
+// 按「前往結帳」被擋下來時會再跳一次，那時是真的要看
 let cakeNoticeShown = false;
 
 function saveCakeTimeNote(){ localStorage.setItem('mohua_caketime', cakeTimeNote); }
@@ -999,8 +1000,8 @@ function addToCart(id, name, price){
   if(existing){ existing.qty += 1; } else { cart.push({id, name, price, qty:1}); }
   saveCart();
   openCart();
-  // 蛋糕可以跟其他甜點放同一車，但要讓客人知道蛋糕是分開排的一單
-  if(isCakeItem(id) && !cakeNoticeShown) showCakeNotice();
+  // 蛋糕混到其他甜點裡就跳提醒（不管是先放蛋糕再加甜點、還是反過來）
+  if(isMixedCart() && !cakeNoticeShown) showCakeNotice();
 }
 // 數量變動時讓數字跳一下再彈回，純視覺回饋；renderCart() 每次都會整段重繪，所以在 saveCart() 之後、
 // 新的 DOM 元素已經存在時才能加 class 觸發 transition
@@ -1068,14 +1069,17 @@ const CAKE_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-
 const CAKE_SHIP_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-control8','yuzu-sesame6','yuzu-sesame8','seasonal-fruit6','seasonal-fruit8'];
 const TARO_ID = 'taro-bento';
 function isCakeItem(id){ return CAKE_IDS.includes(id) || id.startsWith('custom-cake-'); }
-// 上次逛到一半留在購物車裡的蛋糕，重新整理後不要再跳一次提醒
-cakeNoticeShown = cart.some(i => isCakeItem(i.id));
 function isCakeShipItem(id){ return CAKE_SHIP_IDS.includes(id) || id.startsWith('custom-cake-'); }
 function hasTaro(){ return cart.some(i => i.id === TARO_ID); }
 function cakeQty(){ return cart.filter(i => isCakeItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
 function cakeShipQty(){ return cart.filter(i => isCakeShipItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
 // 蛋糕被移光之後，之前打的時間需求就不該再跟著訂單跑出去，統一從這裡取值
 function activeCakeTimeNote(){ return cakeQty() > 0 ? cakeTimeNote.trim() : ''; }
+// 蛋糕跟其他甜點的取貨方式不一樣（蛋糕每顆單獨算運費、常常得自取），沒辦法算成同一筆訂單，
+// 所以混在一起時直接擋下結帳，請客人分開下單。曲線蠟燭是蛋糕的加購，算蛋糕那邊
+function isCakeSideItem(id){ return isCakeItem(id) || id === 'candle'; }
+function hasNonCakeItem(){ return cart.some(i => !isCakeSideItem(i.id)); }
+function isMixedCart(){ return cakeQty() > 0 && hasNonCakeItem(); }
 function otherSubtotal(){ return cart.filter(i => !isCakeShipItem(i.id)).reduce((s,i)=> s+i.price*i.qty, 0) - totalBundleDiscount(); }
 function tieredFee(subtotal){ if(subtotal <= 0) return 0; return subtotal >= 4000 ? 290 : 250; }
 
@@ -1184,6 +1188,7 @@ function checkMinQty(){
   return null;
 }
 function proceedToCheckout(){
+  if(isMixedCart()){ showCakeNotice(); return; }
   const err = checkMinQty();
   if(err){ alert(err); return; }
   showCheckout();
@@ -1191,29 +1196,30 @@ function proceedToCheckout(){
 
 function deliveryNoteFor(value){
   if(value === SPLIT_DELIVERY) return [
-    '購物車內同時有蛋糕（需冷凍）與芋泥便當（需冷藏），將自動拆成兩件宅配寄出：',
-    '・黑貓冷凍宅配　（蛋糕／其他甜點）',
-    '・冷藏宅配　（芋泥便當）',
-    '運費分開計算，結帳時會列出兩件各自金額再加總。',
+    '購物車內同時有需冷凍與需冷藏（芋泥便當）的品項，將自動拆成兩件宅配寄出，運費分開計算：',
+    '・黑貓冷凍宅配',
+    '・冷藏宅配（芋泥便當）',
     '',
-    '<b>下方填寫的地址將同時套用在這兩件包裹上。若蛋糕跟芋泥便當需要寄到不同地址，請分成兩次個別下單，不要使用這個自動拆單選項。</b>',
-    '',
-    '宅配皆有毀損風險，週日、國定假日、颱風天不配送。'
+    '<b>下方填寫的地址會同時套用在這兩件包裹上，要寄到不同地址請分成兩次下單。</b>'
   ].join('<br>');
   if(value === '冷藏宅配') return [
-    '冷藏宅配運費比照黑貓冷凍宅配費率計算：',
-    '訂單滿 NT$4,000 收 NT$290，不滿收 NT$250。',
-    '',
-    '宅配皆有毀損風險，週日、國定假日、颱風天不配送。'
+    '冷藏宅配運費比照黑貓冷凍宅配費率：',
+    '訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b>。'
   ].join('<br>');
   if(value === '黑貓冷凍宅配') return [
     '黑貓低溫宅配運費：',
-    '・禮盒／餅乾／司康／Medovik 等：訂單滿 NT$4,000 收 NT$290，不滿收 NT$250',
-    '・大尺吋蛋糕：每顆 NT$250，與其他品項分開計算',
-    '',
-    '宅配皆有毀損風險，週日、國定假日、颱風天不配送，請完美主義者評估後再選擇此方式。'
+    '・禮盒／餅乾／司康／Medovik 等：訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b>',
+    '・大尺吋蛋糕：每顆 <b>NT$250</b>，與其他品項分開下單'
   ].join('<br>');
   return '';
+}
+
+// 兩句注意事項不管選哪種宅配都要出現，統一從這裡產生，避免三個分支各寫一份寫到不一致
+function deliveryWarnBlock(){
+  const cakeLine = cakeQty() > 0
+    ? '<br><b>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。</b>'
+    : '';
+  return '<b>＊注意</b><br><b>宅配皆有毀損風險，週日、國定假日、颱風天不配送，請完美主義者評估後再選擇此方式。</b>' + cakeLine;
 }
 
 function openCart(){
@@ -1248,12 +1254,8 @@ function renderCart(){
     if(cardNotes.length > n){ cardNotes.length = n; saveCardNotes(); }
     addonRow += `
     <div class="addon-row">
-      <p class="warn-note ui" style="margin-bottom:14px">
-        <b>🎂 蛋糕是單獨下訂的一單</b><br>
-        可以跟其他甜點一起結帳，但蛋糕的製作與取貨時間會分開安排，請至少提前一週預訂。時間如果不好喬，直接問皮，都可以討論。
-      </p>
       <div style="margin-bottom:14px">
-        <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕日期／時間需求（選填，之後會在 LINE@ 跟你確認）</label>
+        <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕日期／時間需求（選填，可再跟皮討論）</label>
         <input type="text" maxlength="60" placeholder="例如：希望 9/20 前拿到，或想約週末下午" value="${cakeTimeNote.replace(/"/g,'&quot;')}" oninput="updateCakeTimeNote(this.value)" class="flavor-select ui" style="width:100%">
       </div>
       <div class="addon-item" style="margin-bottom:10px">
@@ -1303,7 +1305,11 @@ function renderCart(){
       <div><b>－NT$${d.toLocaleString()}</b></div>
     </div>` : '';
   }).join('');
-  cartView.innerHTML = cart.filter(i => !ADDON_IDS.includes(i.id)).map(i => `
+  // 擋結帳的警示放最上面，客人一打開購物車就看得到，不要埋在品項清單下面
+  const mixedWarn = isMixedCart()
+    ? `<p class="alert-note ui"><b>🎂 蛋糕需要單獨下單呦!</b><br>麻煩需要與其他甜點分開下單:)</p>`
+    : '';
+  cartView.innerHTML = mixedWarn + cart.filter(i => !ADDON_IDS.includes(i.id)).map(i => `
     <div class="cart-item">
       <div style="flex:1">
         <p class="ci-name">${i.name}</p>
@@ -1340,9 +1346,6 @@ function showCheckout(){
     const suffix = disabled ? '（已額滿）' : '';
     return `<label class="${disabled?'radio-disabled':''}"><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} ${disabled?'disabled':''} onchange="togglePickupSlot()"> ${m}${suffix}</label>`;
   }).join('');
-  const cakeWarn = cakeQty() > 0
-    ? '<br><br>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。'
-    : '';
   document.getElementById('cartView').innerHTML = `
     <button class="back-link" onclick="backToCart()">← 返回購物車</button>
     <div class="co-form">
@@ -1372,7 +1375,8 @@ function showCheckout(){
           <input type="text" id="custAddress" value="${d.address||''}" placeholder=" ">
           <label>宅配地址</label>
         </div>
-        <p class="warn-note ui" id="deliveryNote" style="margin-top:10px">${deliveryNoteFor(selected)}${cakeWarn}</p>
+        <p class="warn-note ui" id="deliveryNote" style="margin-top:10px">${deliveryNoteFor(selected)}</p>
+        <p class="alert-note ui" id="deliveryWarn">${deliveryWarnBlock()}</p>
       </div>
       <div class="field">
         <input type="text" id="custName" value="${d.name||''}" placeholder=" ">
@@ -1396,11 +1400,10 @@ function togglePickupSlot(){
   const isDelivery = pickup !== '工作室自取';
   document.getElementById('pickupField').style.display = isDelivery ? 'none' : 'block';
   document.getElementById('addressField').style.display = isDelivery ? 'block' : 'none';
-  const cakeWarn = cakeQty() > 0
-    ? '<br><br>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。'
-    : '';
   const noteEl = document.getElementById('deliveryNote');
-  if(noteEl) noteEl.innerHTML = deliveryNoteFor(pickup) + cakeWarn;
+  if(noteEl) noteEl.innerHTML = deliveryNoteFor(pickup);
+  const warnEl = document.getElementById('deliveryWarn');
+  if(warnEl) warnEl.innerHTML = deliveryWarnBlock();
 }
 
 function backToCart(){ view = 'cart'; renderCart(); document.getElementById('cartFoot').style.display = cart.length ? 'block' : 'none'; document.getElementById('drawerTitle').textContent = '購物車'; }
@@ -1452,11 +1455,10 @@ function showTransfer(){
         姓名：${d.name}｜聯絡方式：${d.contact}
         ${d.note ? `<br>備註：${d.note}` : ''}
         ${activeCakeTimeNote() ? `<br>蛋糕日期／時間需求：${activeCakeTimeNote()}` : ''}
-        ${cakeQty() > 0 ? '<br><br><b>🎂 蛋糕為單獨下訂，製作與取貨時間會另外跟你確認。</b>' : ''}
       </div>
       <div class="warn-note ui">
         商品小計　NT$${cartTotal().toLocaleString()}
-        ${feeLines.length ? '<br>' + feeLines.join('<br>') : ''}
+        ${feeLines.length ? '<br>' + feeLines.map(l => l.replace(/(NT\$[\d,]+)/g, '<b>$1</b>')).join('<br>') : ''}
         <br><br>
         應付總額　<b style="font-size:1.15rem">NT$${total.toLocaleString()}</b>
         <br><br>
@@ -1510,11 +1512,7 @@ function sendToLine(){
   lines.push(`姓名：${d.name}`);
   lines.push(`聯絡方式：${d.contact}`);
   if(d.note) lines.push(`備註：${d.note}`);
-  if(cakeQty() > 0){
-    lines.push('');
-    lines.push('🎂 蛋糕為單獨下訂（製作與取貨時間另外確認）');
-    if(activeCakeTimeNote()) lines.push(`蛋糕日期／時間需求：${activeCakeTimeNote()}`);
-  }
+  if(activeCakeTimeNote()) lines.push(`蛋糕日期／時間需求：${activeCakeTimeNote()}`);
   if(cardNotes.some(n => n && n.trim())){
     lines.push('');
     lines.push('小卡留言：');

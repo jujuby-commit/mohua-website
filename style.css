@@ -339,9 +339,16 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
   padding:12px; font-size:.92rem; font-family:inherit; cursor:pointer;
 }
 
+/* 擋下來的警示（例如蛋糕混到其他品項）：要比一般 warn-note 更跳出來一點 */
+.alert-note{
+  font-size:.85rem; line-height:1.7; color:var(--accent);
+  background:var(--card); border:1px solid var(--accent); border-radius:10px;
+  padding:12px 14px; margin:0 0 20px;
+}
+
 /* 轉帳頁的匯款帳號：客人要一眼看到、好核對，所以拉大字級＋等寬數字 */
 .bank-block{margin:12px 0 6px}
-.bank-name{font-size:.9rem; color:var(--ink-soft); margin-bottom:4px}
+.bank-name{font-size:.9rem; color:var(--ink); margin-bottom:4px}
 .bank-account{
   display:flex; align-items:center; gap:8px; flex-wrap:wrap;
   font-size:1.55rem; font-weight:800; letter-spacing:.05em; color:var(--ink);
