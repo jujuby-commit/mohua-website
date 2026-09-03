@@ -900,20 +900,26 @@ function blurActiveField(){
 }
 
 // LINE 電腦版無法用網址直接帶入預填訊息（line.me/R/oaMessage 只有手機能跳轉成功，電腦版會被導回 LINE 官網首頁），
-// 改成自動複製訂單文字＋開啟正確的 LINE 對話，請客人自己貼上送出
-// 注意：window.open() 一定要在點擊當下「同步」執行，等 clipboard.writeText 或 alert 跑完才開，
-// 瀏覽器會判定不是使用者直接觸發而擋下彈出視窗，導致「沒反應」
-function openLineWithMessage(text){
-  window.open('https://line.me/ti/p/' + LINE_OA, '_blank');
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(() => {
-      alert('訂單內容已複製，請在剛剛開啟的 LINE@ 對話貼上（Ctrl+V）後送出即可。');
-    }).catch(() => {
-      alert('自動複製失敗，請手動複製以下內容後貼到 LINE@：\n\n' + text);
-    });
-  } else {
-    alert('請手動複製以下內容後貼到 LINE@：\n\n' + text);
+// 只能請客人自己貼上送出。以前是「複製＋跳轉」一次自動做完，但兩件事疊在一起，
+// 中間任何一步卡住（跳轉被擋、複製權限問題）客人完全看不出來發生什麼事，會慌。
+// 改成訂單成立後留在頁面上顯示完整內容＋兩顆各自獨立的按鈕（複製／前往 LINE@），
+// 客人自己按順序來，就算其中一顆沒反應，畫面上的文字還在，還是能手動複製貼上。
+function copyOrderText(btn){
+  const original = btn.textContent;
+  if(!navigator.clipboard || !navigator.clipboard.writeText){
+    alert('自動複製失敗，請手動選取上方框框裡的文字複製');
+    return;
   }
+  navigator.clipboard.writeText(lastOrderText).then(() => {
+    btn.textContent = '已複製 ✓';
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  }).catch(() => {
+    alert('自動複製失敗，請手動選取上方框框裡的文字複製');
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 
 // 訂單同時送一份進陌花訂單後臺（Cloudflare Worker + D1）。
@@ -960,7 +966,7 @@ function postOrderToBackend(d, last5, rawText){
 let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
 let cardNotes = JSON.parse(localStorage.getItem('mohua_cardnotes') || '[]');
 let cakeTimeNote = localStorage.getItem('mohua_caketime') || '';
-let view = 'cart'; // 'cart' | 'checkout' | 'transfer'
+let view = 'cart'; // 'cart' | 'checkout' | 'transfer' | 'done'
 let orderDraft = null;
 
 // 混車提醒跳一次就好，之後同一車再加東西不重複跳（會很煩）；
@@ -1460,18 +1466,19 @@ function showTransfer(){
         <input type="text" id="last5" placeholder=" " maxlength="5">
         <label>匯款帳號後五碼</label>
       </div>
-      <p class="item-note">使用電腦瀏覽器的朋友，建議先用手機 LINE 加陌花為好友（<a href="https://line.me/ti/p/@818rntfj" target="_blank">@818rntfj</a>），送出時才不會卡在加好友的 QR Code 畫面。</p>
-      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="sendToLine()">確認送出到 LINE@</button>
+      <p class="item-note">使用電腦瀏覽器的朋友，建議先用手機 LINE 加陌花為好友（<a href="https://line.me/ti/p/@818rntfj" target="_blank">@818rntfj</a>），等等前往 LINE@ 時才不會卡在加好友的 QR Code 畫面。</p>
+      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="finalizeOrder()">確認訂單 →</button>
     </div>
   `;
 }
 
-function sendToLine(){
+let lastOrderText = '';
+
+function finalizeOrder(){
   const last5 = document.getElementById('last5').value.trim();
   if(!last5){ alert('請填寫匯款帳號後五碼喔'); return; }
 
   const d = orderDraft;
-  const fee = deliveryFee(d.pickup);
   const total = grandTotal(d.pickup);
 
   let lines = ['【陌花線上訂購】',''];
@@ -1507,9 +1514,8 @@ function sendToLine(){
   lines.push(`匯款帳號後五碼：${last5}`);
   lines.push(`（匯至 ${BANK.name} ${BANK.account} ${BANK.holder}）`);
 
-  const text = lines.join('\n');
-  openLineWithMessage(text);
-  postOrderToBackend(d, last5, text);   // 一定要在清空購物車之前送
+  lastOrderText = lines.join('\n');
+  postOrderToBackend(d, last5, lastOrderText);   // 一定要在清空購物車之前送，後臺這邊訂單已經算成立了
 
   cart = [];
   cardNotes = [];
@@ -1519,7 +1525,24 @@ function sendToLine(){
   saveCakeTimeNote();
   saveCardNotes();
   saveCart();
-  closeCart();
+
+  showOrderDone();
+}
+
+// 訂單資料已經送進後臺，接下來這步只是把同一份內容遞給客人自己複製貼到 LINE，
+// 複製跟跳轉分成兩顆各自獨立的按鈕，就算其中一顆在客人手機上沒反應，
+// 畫面上的文字還在，還是能長按選取手動複製，不會卡住不知道下一步要幹嘛
+function showOrderDone(){
+  view = 'done';
+  document.getElementById('drawerTitle').textContent = '訂單已成立';
+  document.getElementById('cartFoot').style.display = 'none';
+  document.getElementById('cartView').innerHTML = `
+    <div class="warn-note ui"><b>訂單內容已經記錄下來了，最後一步：把下面內容複製貼到 LINE@ 送出</b></div>
+    <div class="warn-note ui" style="white-space:pre-wrap;font-size:.85rem">${escapeHtml(lastOrderText)}</div>
+    <button class="checkout-btn" onclick="copyOrderText(this)">📋 複製訂單內容</button>
+    <button class="checkout-btn" style="margin-top:10px" onclick="window.open('https://line.me/ti/p/${LINE_OA}','_blank')">前往 LINE@ →</button>
+    <p class="item-note" style="margin-top:12px">步驟：先按「複製訂單內容」，再按「前往 LINE@」，到對話框長按畫面選「貼上」（電腦版 Ctrl+V）後送出。收到陌花回覆貼圖即代表訂購成功。</p>
+  `;
 }
 
 function updateSizedPrice(selectId, priceId){
@@ -1587,11 +1610,6 @@ function addToCartFlavor(baseId, baseName, price, selectId){
   const id = baseId + '-' + sel.value;
   const name = baseName + '｜' + flavor;
   addToCart(id, name, price);
-}
-
-function inquireLine(name){
-  const text = `您好，我想詢問「${name}」的價格與訂購方式`;
-  openLineWithMessage(text);
 }
 
 function switchTab(cat){
