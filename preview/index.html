@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>【測試版】陌花 MOHUA｜甜點與烘焙課程</title>
+<style>#previewTag{position:fixed;top:8px;left:8px;z-index:999;background:#e0413f;color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;font-family:sans-serif;pointer-events:none}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="陌花 MOHUA——豬皮的甜點工作室，大尺吋蛋糕、期間限定禮盒、烘焙課程。">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div id="previewTag">🧪 測試版</div>
+
+<nav class="topnav">
+  <div class="topnav-inner ui">
+    <a class="brand" href="#top">陌花 MOHUA</a>
+    <div class="nav-links">
+      <a href="#story">故事</a>
+      <a href="#shop">甜點</a>
+      <a href="#agreement">公約</a>
+      <a href="../dessert-history.html">甜點世界史</a>
+      <a href="../course.html">課程</a>
+      <a href="#visit">聯繫</a>
+    </div>
+    <button class="cart-btn" onclick="openCart()"><span class="ui-label">購物車</span> <span class="cart-count ui" id="cartCount">0</span></button>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-media">
+    <img src="../素材/ig/post-01-jan13.jpg" alt="陌花手作甜點與果醬">
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <img class="hero-badge" src="../素材/ig/profile-logo.jpg" alt="陌花 MOHUA LAB">
+    <p class="eyebrow ui">MOHUA DESSERT STUDIO</p>
+    <h1 class="name">老派日常裡的浪漫撒野</h1>
+    <p class="lede">陌花 MOHUA，一間專注手作、需要提前預訂的甜點工作室。</p>
+
+    <div class="hero-promo">
+      <p class="hero-promo-tag">中秋禮盒・月嶼林棲</p>
+      <p class="hero-promo-text">現正預購中</p>
+      <a href="#shop" class="hero-cta ui outline" onclick="switchTab('midautumn')">看中秋禮盒 →</a>
+    </div>
+
+    <a href="#shop" class="hero-cta ui">看全部甜點 →</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ================= 品牌故事 ================= -->
+<section class="block story-block" id="story">
+  <p class="eyebrow ui">OUR STORY</p>
+  <h2 class="sec-title">關於陌花</h2>
+
+  <p class="story-text">陌花カシマ，一座不在地圖上的島，一間為日常而生的實驗室——做的是那種你不一定在找它，卻會想多看一眼的甜點。<br>
+  為習慣自己過日子的人，也為只是想好好吃點什麼的你，不趕熱鬧，只是老實地，讓日常的味道有點值得期待。</p>
+
+  <div class="story-banner"><img src="../素材/ig/post-05-jan23.jpg" alt="陌花手作甜點"></div>
+
+  <p class="story-text">從日本菓子專門學校的洋菓子科，到澳洲的 Fine Dining 餐桌與傳統麵包店，豬皮把異地累積的手藝，帶回台灣一間老公寓的五樓，一人、一爐、一份份慢慢做。<br>
+  日本、法國進口原料是基本功；真正讓陌花有了自己味道的，是台灣在地當季食材——大湖草莓、台東紅烏龍、大甲芋頭，還有皮在山海之間，親手採集來的馬告與刺蔥。</p>
+
+  <blockquote class="pull-quote ui">CAKE．BREAD．BUTTER——做著樸素的蛋糕，好玩就好。</blockquote>
+</section>
+
+<!-- ================= 甜點訂購 ================= -->
+<section class="block" id="shop">
+  <h2 class="sec-title">甜點訂購</h2>
+  <p class="sec-sub">選好想要的品項，加入購物車後會整理成訂單訊息，直接傳到陌花的 LINE@。</p>
+
+  <div class="tabs ui">
+    <button class="tab active" data-cat="giftbox" onclick="switchTab('giftbox')">林深茶事</button>
+    <button class="tab" data-cat="midautumn" onclick="switchTab('midautumn')">中秋禮盒<span class="tab-sub">／月嶼林棲</span></button>
+    <button class="tab" data-cat="cake" onclick="switchTab('cake')">大尺吋蛋糕</button>
+    <button class="tab" data-cat="changtai" onclick="switchTab('changtai')">常態甜點</button>
+  </div>
+
+  <!-- 新春禮盒 -->
+  <div class="cat-panel" id="panel-giftbox">
+    <div class="gallery-strip">
+      <img src="../素材/form-img-1.png" alt="陌花新春禮盒陳列">
+      <img src="../素材/form-img-6.png" alt="風呂敷包裝">
+      <img src="../素材/form-img-2.png" alt="黑森林莓果醬">
+    </div>
+    <p class="tagline">關於時間與溫度的紀錄</p>
+    <p class="sec-sub" style="margin-bottom:8px">過往的中秋，皮在山海之間採集馬告與刺蔥；後來帶著這份風土，走進更深處的森林，做成這罐黑森林玫瑰莓果醬，禮盒上的其他品項，也繞著這個概念做了一些延伸。</p>
+    <p class="sec-sub" style="margin-bottom:20px">台灣的茶、果乾、蜜，一直是心頭好——喜歡用原葉打磨出來的茶粉，帶點顆粒感，咀嚼起來更讓人回味；從果實的挑選，到糖漬烘乾的每一步，都想細心對待，才不辜負這座島給的一切。</p>
+    <p class="item-note" style="margin-bottom:16px">由 2026 新春禮盒延續而來的茶席提案，現為常態接單商品，單次 10 盒以上可製作，數量與口味搭配歡迎 LINE@ 洽詢。</p>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/form-img-1.png" alt="豪華大盒：林深茶事"></div>
+        <div class="body">
+          <h3>豪華大盒｜林深茶事</h3>
+          <p class="desc">伯爵蜂蜜蛋糕×1、鹹甜脆皮司康×1、黑森林莓果醬150g×1罐、紅烏龍無花果Biscotti×6、黑森林玫瑰莓果夾心×3、脆皮楓糖費南雪×2、莓果大理石奶香曲奇×6</p>
+          <div class="price-row">
+            <span class="price ui">NT$1,380</span>
+            <button class="add-btn ui" onclick="addToCart('giftbox-big','豪華大盒｜林深茶事',1380)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/form-img-4.png" alt="精選小盒：小時光"></div>
+        <div class="body">
+          <h3>精選小盒｜小時光</h3>
+          <p class="desc">伯爵蜂蜜蛋糕×1、紅烏龍無花果Biscotti×3、黑森林玫瑰莓果夾心×2、脆皮楓糖費南雪×1、莓果大理石奶香曲奇×4</p>
+          <div class="price-row">
+            <span class="price ui">NT$780</span>
+            <button class="add-btn ui" onclick="addToCart('giftbox-small','精選小盒｜小時光',780)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/form-img-3.png" alt="黑森林莓果禮盒"></div>
+        <div class="body">
+          <h3>黑森林莓果禮盒</h3>
+          <p class="desc">黑森林玫瑰莓果夾心×6、莓果大理石奶香曲奇×6、黑森林莓果醬150g×1罐</p>
+          <div class="price-row">
+            <span class="price ui">NT$950</span>
+            <button class="add-btn ui" onclick="addToCart('giftbox-berry','黑森林莓果禮盒',950)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/form-img-6.png" alt="風呂敷日式包巾"></div>
+        <div class="body">
+          <h3>加購｜風呂敷日式包巾</h3>
+          <p class="desc">日式包巾包裝，送禮更有質感。</p>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('furoshiki','加購｜風呂敷日式包巾',100)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-list">
+      <h4 class="ui">特別預訂</h4>
+      <ul>
+        <li>
+          <div>
+            <div>Medovik 蜂蜜伯爵千層蛋糕（6吋）</div>
+            <span class="note">手工桿製伯爵蜂蜜餅乾層，24 小時低溫熟成</span>
+          </div>
+          <button class="add-btn outline ui" onclick="addToCart('medovik','Medovik 蜂蜜伯爵千層蛋糕（6吋）',1380)">NT$1,380</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 中秋禮盒 -->
+  <div class="cat-panel" id="panel-midautumn" style="display:none">
+    <div class="gallery-strip">
+      <img src="../素材/中秋禮盒/moonfestival-labeled-tray.jpg" alt="月嶼林棲禮盒六種口味標示">
+      <img src="../素材/中秋禮盒/unbox-detail.jpg" alt="月嶼林棲禮盒開盒細節">
+      <img src="../素材/中秋禮盒/giftbag-packaging.jpg" alt="月嶼林棲禮盒提袋與包裝">
+    </div>
+    <p class="tagline">月嶼林棲</p>
+    <p class="sec-sub" style="margin-bottom:8px">山林的氣息，伴著秋夜的月光，<br>茶香隨風飄散，如水的月光灑落，<br>陌生又熟悉的味道，是大家最想念的家鄉。</p>
+    <p class="sec-sub" style="margin-bottom:20px">餅皮選用台灣原生香料與在地食材，將純淨的山林氣息，化為一口口的溫柔。特色餡料為花生蓮蓉起司餡，蒸熟的花生與蓮子壓成泥後翻炒成蓮蓉餡，搭配北海道奶油乳酪蒸烤而成，口感細緻、溫潤。</p>
+
+    <h3 class="subcat-title" style="margin-top:0;padding-top:0;border-top:none">月嶼林棲</h3>
+    <h3 class="subcat-title">A. 台灣風味月餅</h3>
+    <div class="mini-strip" style="max-width:100%;grid-template-columns:repeat(4,1fr)">
+      <img src="../素材/中秋禮盒/mooncake-01.jpg" alt="台灣風味月餅細節 1">
+      <img src="../素材/中秋禮盒/mooncake-02.jpg" alt="台灣風味月餅細節 2">
+      <img src="../素材/中秋禮盒/mooncake-03.jpg" alt="台灣風味月餅細節 3">
+      <img src="../素材/中秋禮盒/mooncake-04.jpg" alt="台灣風味月餅細節 4">
+    </div>
+    <p class="subcat-note">口味：馬告杏桃（山胡椒清香、杏桃甜香）、刺蔥檸檬（原住民香料、清新風味）、紅烏龍核桃（高山茶韻、溫潤核桃）、觀音茶南瓜子（茶香與堅果的和諧）。附贈手寫小卡、麻繩。</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="body">
+          <h3>四入嚐鮮組合</h3>
+          <p class="desc">口味各一，先嚐鮮再決定送禮組合。</p>
+          <div class="price-row">
+            <span class="price ui" id="price-mooncake-4">NT$660</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('mooncake-4','台灣風味月餅｜四入嚐鮮組合',660)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="body">
+          <h3>六入精緻禮盒</h3>
+          <p class="desc">馬告杏桃×2、刺蔥檸檬×2、紅烏龍核桃×1、觀音茶南瓜子×1。</p>
+          <div class="price-row">
+            <span class="price ui" id="price-mooncake-6">NT$980</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('mooncake-6','台灣風味月餅｜六入精緻禮盒',980)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subcat-title">B. 芝麻肉鬆麻糬酥餅</h3>
+    <p class="subcat-note">外酥內軟的層次，芝麻濃厚、肉鬆鹹香，還有麻糬牽絲的驚喜。</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/31-sesame-mochi-pastry.jpg" alt="芝麻肉鬆QQ酥餅（整顆）" style="object-position:top"></div>
+        <div class="body">
+          <h3>單入</h3>
+          <div class="price-row">
+            <span class="price ui" id="price-sesame-mochi-1">NT$130</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('sesame-mochi-1','芝麻肉鬆麻糬酥餅（單入）',130)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/31-sesame-mochi-pastry.jpg" alt="芝麻肉鬆QQ酥餅（切開）" style="object-position:bottom"></div>
+        <div class="body">
+          <h3>六入</h3>
+          <div class="price-row">
+            <span class="price ui" id="price-sesame-mochi-6">NT$760</span>
+            <button class="add-btn ui" onclick="addMidAutumnItem('sesame-mochi-6','芝麻肉鬆麻糬酥餅（六入）',760)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="item-note" style="margin-top:8px">退冰即可享用，回烤風味更佳。中秋禮盒現正預購中，自取日為 9/20，選擇宅配的訂單將於 9/21 統一以黑貓冷凍宅配寄出，實際安排請以發文公告為準。</p>
+  </div>
+
+  <!-- 大尺吋蛋糕 -->
+  <div class="cat-panel" id="panel-cake" style="display:none">
+    <div class="gallery-strip">
+      <img src="../素材/大尺吋蛋糕/包裝/packaging-ribbon-01.jpg" alt="雙色緞帶蝴蝶結與手寫感謝小卡">
+      <img src="../素材/大尺吋蛋糕/包裝/packaging-ribbon-02.jpg" alt="手繫麻繩與手寫生日祝福小卡">
+      <img src="../素材/大尺吋蛋糕/包裝/packaging-ribbon-03.jpg" alt="包裝完成的蛋糕禮盒">
+    </div>
+    <p class="tagline">生活小小的儀式感</p>
+    <p class="sec-sub" style="margin-bottom:20px">日本中澤鮮奶油、法國鮮奶油、自製香草二砂糖——厚實豐富的內餡，是每一顆重重的蛋糕最在意的細節。雙色緞帶、手寫小卡，是出門前的最後一道手續。以下為圖片示意，實際成品依當次製作為準。</p>
+
+    <p class="item-note" style="margin-bottom:16px">招牌固定 4 款，口味、備料都經過整理，選擇更單純；也提供客製蛋糕自由搭配基底與奶霜，其他特殊需求歡迎 LINE@ 討論。</p>
+    <p class="item-note" style="margin-bottom:16px">手作蛋糕需要時間醞釀，自取日期依當月產能安排公告，請於結帳頁面確認當下可選時段，建議提前預約，才不會錯過想要的日期。</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/大尺吋蛋糕/06-taitung-honey-blacktea-fruit.png" alt="紅烏龍燉蘋果蛋糕"></div>
+        <div class="body">
+          <h3>紅烏龍燉蘋果</h3>
+          <p class="desc">白蘭地香草焦糖燉蘋果、巧克力脆脆、紅烏龍奶凍——高山茶韻配溫潤燉蘋果，客人反應最好的組合。</p>
+          <select class="flavor-select ui" id="size-honglurong-apple" onchange="updateSizedPrice('size-honglurong-apple','price-honglurong-apple')">
+            <option value="6|1800">6 吋　NT$1,800</option>
+            <option value="8|3000">8 吋　NT$3,000</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui" id="price-honglurong-apple">NT$1,800</span>
+            <button class="add-btn ui" onclick="addToCartSized('honglurong-apple','紅烏龍燉蘋果','size-honglurong-apple')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/大尺吋蛋糕/08-taro-hojicha-caramel-nut.png" alt="芋泥控蛋糕"></div>
+        <div class="body">
+          <h3>芋泥控</h3>
+          <p class="desc">芋泥、焦糖堅果脆、蜂蜜乳酪——自慢推薦款。宅配改為芋泥乳酪冰糕。</p>
+          <select class="flavor-select ui" id="size-taro-control" onchange="updateSizedPrice('size-taro-control','price-taro-control')">
+            <option value="6|1800">6 吋　NT$1,800</option>
+            <option value="8|3000">8 吋　NT$3,000</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui" id="price-taro-control">NT$1,800</span>
+            <button class="add-btn ui" onclick="addToCartSized('taro-control','芋泥控','size-taro-control')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/大尺吋蛋糕/11-yuzu-genmai.png" alt="柚子芝麻蛋糕"></div>
+        <div class="body">
+          <h3>柚子芝麻</h3>
+          <p class="desc">日本柚子乳糕、芝麻奶凍、芝麻脆脆，清爽解膩的組合。</p>
+          <select class="flavor-select ui" id="size-yuzu-sesame" onchange="updateSizedPrice('size-yuzu-sesame','price-yuzu-sesame')">
+            <option value="6|1800">6 吋　NT$1,800</option>
+            <option value="8|3000">8 吋　NT$3,000</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui" id="price-yuzu-sesame">NT$1,800</span>
+            <button class="add-btn ui" onclick="addToCartSized('yuzu-sesame','柚子芝麻','size-yuzu-sesame')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/大尺吋蛋糕/05-vanilla-rum-fruit.png" alt="當季水果蛋糕"></div>
+        <div class="body">
+          <h3>當季水果</h3>
+          <p class="desc">蜂蜜乳酪、原味香草奶凍，水果隨四季輪替，選用價格穩定的常見品項——春：桑葚／夏：芒果／秋：甜柿／冬：茂谷柑。</p>
+          <select class="flavor-select ui" id="size-seasonal-fruit" onchange="updateSizedPrice('size-seasonal-fruit','price-seasonal-fruit')">
+            <option value="6|1600">6 吋　NT$1,600</option>
+            <option value="8|2800">8 吋　NT$2,800</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui" id="price-seasonal-fruit">NT$1,600</span>
+            <button class="add-btn ui" onclick="addToCartSized('seasonal-fruit','當季水果','size-seasonal-fruit')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/大尺吋蛋糕/04-medovik.png" alt="Medovik 蜂蜜伯爵千層蛋糕"></div>
+        <div class="body">
+          <h3>Medovik 蜂蜜伯爵千層蛋糕</h3>
+          <p class="desc">「時間，是這款蛋糕最重要的食材。」手工桿製伯爵蜂蜜餅乾層，24 小時低溫熟成。不同於禮盒裡蜂蜜蛋糕的「輕盈彈潤」，這款展現的是「厚實與深邃」——茶香、核桃與焦糖蜂蜜，在時間裡緩緩融合，質地從酥脆轉化為如雲朵般的綿密，適合團圓餐後的重頭戲，或是情人節最深情的對白。</p>
+          <div class="price-row">
+            <span class="price ui">6吋 NT$1,380</span>
+            <button class="add-btn ui" onclick="addToCart('medovik-cake','Medovik 蜂蜜伯爵千層蛋糕（6吋）',1380)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/13-carrot-cake.png" alt="香橙乳酪胡蘿蔔蛋糕（8吋整顆）"></div>
+        <div class="body">
+          <h3>香橙乳酪胡蘿蔔蛋糕</h3>
+          <p class="desc">輕盈留香的香橙馬茲卡邦乳酪，胡蘿蔔蛋糕也拌入大量橙皮跟橙汁；常態甜點也有單片販售。</p>
+          <div class="price-row">
+            <span class="price ui">8吋整顆 NT$1,500</span>
+            <button class="add-btn ui" onclick="addToCart('carrot-cake-8','香橙乳酪胡蘿蔔蛋糕（8吋整顆）',1500)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="carousel" id="carousel-cakegallery">
+          <div class="carousel-track" id="carousel-cakegallery-track">
+            <img src="../素材/大尺吋蛋糕/01-strawberry-jp.png" alt="蛋糕造型 1">
+            <img src="../素材/大尺吋蛋糕/03-persimmon-hojicha-orange-cheese.png" alt="蛋糕造型 2">
+            <img src="../素材/大尺吋蛋糕/07-mango-papaya-blacktea.png" alt="蛋糕造型 3">
+            <img src="../素材/大尺吋蛋糕/09-chestnut-earlgrey-blacktea.png" alt="蛋糕造型 4">
+            <img src="../素材/大尺吋蛋糕/10-hojicha-persimmon.png" alt="蛋糕造型 5">
+            <img src="../素材/大尺吋蛋糕/12-hojicha-mikan-saltflower-cheese.png" alt="蛋糕造型 6">
+            <img src="../素材/大尺吋蛋糕/13-earlgrey-orange-mikan.png" alt="蛋糕造型 7">
+            <img src="../素材/大尺吋蛋糕/15-tangerine-boxed.jpg" alt="蛋糕造型 8">
+            <img src="../素材/大尺吋蛋糕/16-walnut-driedorange.png" alt="蛋糕造型 9">
+          </div>
+          <button class="carousel-arrow prev" onclick="carouselMove('cakegallery',-1)">‹</button>
+          <button class="carousel-arrow next" onclick="carouselMove('cakegallery',1)">›</button>
+          <div class="carousel-dots" id="carousel-cakegallery-dots">
+            <span class="active" onclick="carouselGoTo('cakegallery',0)"></span>
+            <span onclick="carouselGoTo('cakegallery',1)"></span>
+            <span onclick="carouselGoTo('cakegallery',2)"></span>
+            <span onclick="carouselGoTo('cakegallery',3)"></span>
+            <span onclick="carouselGoTo('cakegallery',4)"></span>
+            <span onclick="carouselGoTo('cakegallery',5)"></span>
+            <span onclick="carouselGoTo('cakegallery',6)"></span>
+            <span onclick="carouselGoTo('cakegallery',7)"></span>
+            <span onclick="carouselGoTo('cakegallery',8)"></span>
+          </div>
+        </div>
+        <div class="body">
+          <h3>客製蛋糕｜自由搭配</h3>
+          <p class="item-note" style="margin-bottom:8px">以上為過往製作過的造型示意，實際款式依當次基底＋奶霜組合為準。</p>
+          <p class="desc">先選基底，奶霜會自動列出跟這個基底最搭的兩種選擇；燉蘋果／芋泥／柚子乳糕／芒果／甜柿這五款基底，也已經幫你配好對應的口感脆片，不用另外選。含榴槤／櫻桃／草莓在內同一價格，不另外加價，實際供應依當季而定，下單後由皮 LINE@ 確認細節（不確定味道搭不搭，也可以留言請皮推薦組合）。</p>
+          <select class="flavor-select ui" id="custom-cake-a" onchange="updateCustomCakeB()">
+            <option value="燉蘋果">基底：白蘭地香草焦糖燉蘋果</option>
+            <option value="芋泥">基底：芋泥</option>
+            <option value="柚子乳糕">基底：日本柚子乳糕</option>
+            <option value="芒果">基底：當季芒果</option>
+            <option value="甜柿">基底：當季甜柿</option>
+            <option value="水蜜桃">基底：當季水蜜桃</option>
+            <option value="榴槤">基底：榴槤（季節限定）</option>
+            <option value="櫻桃">基底：櫻桃（季節限定）</option>
+            <option value="草莓">基底：草莓（季節限定）</option>
+          </select>
+          <select class="flavor-select ui" id="custom-cake-b"></select>
+          <p class="item-note" id="custom-cake-c-note" style="margin:8px 0"></p>
+          <select class="flavor-select ui" id="custom-cake-size" onchange="updateSizedPrice('custom-cake-size','price-custom-cake')">
+            <option value="6|2200">6 吋　NT$2,200</option>
+            <option value="8|3600">8 吋　NT$3,600</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui" id="price-custom-cake">NT$2,200</span>
+            <button class="add-btn ui" onclick="addCustomCake('custom-cake-size','custom-cake-a','custom-cake-b')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="item-note"><b>蛋糕需要單獨下單呦!</b> 麻煩需要與其他甜點分開下單:)（一次訂好幾顆蛋糕沒問題）。購物車裡放入蛋糕後，會出現日期／時間需求、曲線蠟燭加購與小卡祝福語欄位。</p>
+  </div>
+
+  <!-- 常態甜點 -->
+  <div class="cat-panel" id="panel-changtai" style="display:none">
+    <p class="sec-sub" style="margin-bottom:20px">日常品項，公司下午茶、婚禮派對、接待小點歡迎討論，數量達到也可以預定，歡迎團購。</p>
+
+    <div class="tabs ui">
+      <button class="tab active" data-subcat="tart" onclick="switchSubTab('tart')">大尺吋塔派</button>
+      <button class="tab" data-subcat="bites" onclick="switchSubTab('bites')">小點心</button>
+      <button class="tab" data-subcat="rolls" onclick="switchSubTab('rolls')">麵包捲</button>
+      <button class="tab" data-subcat="boxes" onclick="switchSubTab('boxes')">甜點盒子</button>
+    </div>
+
+    <div class="subcat-panel" id="subpanel-tart">
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/14-lemon-tart.png" alt="唾液腺失調檸檬塔"></div>
+        <div class="body">
+          <h3>唾液腺失調檸檬塔（6吋）</h3>
+          <p class="desc">酥脆甜塔皮是主角，退冰後依舊香脆，內餡有一層像奶蓋的鹹甜乳酪餡，獻給喜歡酸感但追求平衡的人。</p>
+          <div class="price-row">
+            <span class="price ui">NT$1,380</span>
+            <button class="add-btn ui" onclick="addToCart('lemon-tart','唾液腺失調檸檬塔（6吋）',1380)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="subcat-panel" id="subpanel-bites" style="display:none">
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/01-earlgrey-honey-cake.png" alt="伯爵蜂蜜蛋糕"></div>
+        <div class="body">
+          <h3>伯爵蜂蜜蛋糕</h3>
+          <p class="desc">磨碎的伯爵茶葉揉入麵糊，入口先是蜂蜜清甜，隨後佛手柑香氣散發，質地彈潤。</p>
+          <div class="price-row">
+            <span class="price tbd ui">NT$100／片（售完）</span>
+            <button class="add-btn disabled ui">已售完</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/13-carrot-cake.png" alt="香橙乳酪胡蘿蔔蛋糕"></div>
+        <div class="body">
+          <h3>香橙乳酪胡蘿蔔蛋糕</h3>
+          <p class="desc">輕盈留香的香橙馬茲卡邦乳酪，胡蘿蔔蛋糕也拌入大量橙皮跟橙汁。</p>
+          <div class="price-row">
+            <span class="price ui">NT$150 / 片</span>
+            <button class="add-btn ui" onclick="addToCart('carrot-cake','香橙乳酪胡蘿蔔蛋糕（單片）',150)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="carousel" id="carousel-dacquoise">
+          <div class="carousel-track" id="carousel-dacquoise-track">
+            <img src="../素材/達克瓦茲系列/dacquoise-01.jpg" alt="達克瓦茲全口味展示 1">
+            <img src="../素材/達克瓦茲系列/dacquoise-02.jpg" alt="達克瓦茲全口味展示 2">
+            <img src="../素材/達克瓦茲系列/dacquoise-03.jpg" alt="達克瓦茲全口味展示 3">
+            <img src="../素材/達克瓦茲系列/dacquoise-04.jpg" alt="達克瓦茲全口味展示 4">
+            <img src="../素材/達克瓦茲系列/dacquoise-05.jpg" alt="達克瓦茲全口味展示 5">
+            <img src="../素材/達克瓦茲系列/dacquoise-06.jpg" alt="達克瓦茲全口味展示 6">
+            <img src="../素材/達克瓦茲系列/dacquoise-07.jpg" alt="達克瓦茲全口味展示 7">
+            <img src="../素材/達克瓦茲系列/dacquoise-08.jpg" alt="達克瓦茲全口味展示 8">
+            <img src="../素材/達克瓦茲系列/dacquoise-09.jpg" alt="達克瓦茲全口味展示 9">
+            <img src="../素材/達克瓦茲系列/dacquoise-10.jpg" alt="達克瓦茲全口味展示 10">
+            <img src="../素材/達克瓦茲系列/dacquoise-11.jpg" alt="達克瓦茲全口味展示 11">
+            <img src="../素材/達克瓦茲系列/dacquoise-12.jpg" alt="達克瓦茲全口味展示 12">
+          </div>
+          <button class="carousel-arrow prev" onclick="carouselMove('dacquoise',-1)">‹</button>
+          <button class="carousel-arrow next" onclick="carouselMove('dacquoise',1)">›</button>
+          <div class="carousel-dots" id="carousel-dacquoise-dots">
+            <span class="active" onclick="carouselGoTo('dacquoise',0)"></span>
+            <span onclick="carouselGoTo('dacquoise',1)"></span>
+            <span onclick="carouselGoTo('dacquoise',2)"></span>
+            <span onclick="carouselGoTo('dacquoise',3)"></span>
+            <span onclick="carouselGoTo('dacquoise',4)"></span>
+            <span onclick="carouselGoTo('dacquoise',5)"></span>
+            <span onclick="carouselGoTo('dacquoise',6)"></span>
+            <span onclick="carouselGoTo('dacquoise',7)"></span>
+            <span onclick="carouselGoTo('dacquoise',8)"></span>
+            <span onclick="carouselGoTo('dacquoise',9)"></span>
+            <span onclick="carouselGoTo('dacquoise',10)"></span>
+            <span onclick="carouselGoTo('dacquoise',11)"></span>
+          </div>
+        </div>
+        <div class="body">
+          <h3>達克瓦茲</h3>
+          <p class="desc">純杏仁粉、義大利西西里杏仁粉外皮，酥脆軟黏不黏牙（單次訂購 10 顆以上製作）。</p>
+          <select class="flavor-select ui" id="flavor-dacquoise">
+            <option value="紅烏龍無花果">紅烏龍無花果</option>
+            <option value="焙茶鳳梨">焙茶鳳梨</option>
+            <option value="芝麻脆脆">芝麻脆脆</option>
+            <option value="檸檬乳酪">檸檬乳酪</option>
+            <option value="日本柚子堅果">日本柚子堅果</option>
+            <option value="茶漬金桔">茶漬金桔</option>
+            <option value="朗姆酒葡萄乾">朗姆酒葡萄乾</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui">NT$120 / 個</span>
+            <button class="add-btn ui" onclick="addToCartFlavor('dacquoise','達克瓦茲',120,'flavor-dacquoise')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/32-three-eyed-cookie-photo.jpg" alt="三眼怪—觀音茶海鹽白巧克力三眼怪軟餅乾"></div>
+        <div class="body">
+          <h3>三眼怪｜觀音茶白巧克力軟餅乾</h3>
+          <p class="desc">現磨觀音茶烤後香氣爆發，AOP 發酵奶油的細緻奶香，配上鹽之花，甜而不膩。</p>
+          <div class="price-row">
+            <span class="price ui">NT$240 / 三入</span>
+            <button class="add-btn ui" onclick="addToCart('three-eyed','三眼怪｜觀音茶白巧克力軟餅乾（三入）',240)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/04-canele-rum.png" alt="灌餡可麗露 朗姆香草基底"></div>
+        <div class="body">
+          <h3>灌餡可麗露｜朗姆香草基底</h3>
+          <p class="desc">外層蜂膠、發酵奶油製成封殼。兩天靜置麵糊需提前預訂（單次訂購 10 顆以上製作）。</p>
+          <select class="flavor-select ui" id="flavor-canele-rum">
+            <option value="芝麻脆脆">灌餡口味：芝麻脆脆</option>
+            <option value="檸檬凝乳">灌餡口味：檸檬凝乳</option>
+            <option value="日本柚子">灌餡口味：日本柚子</option>
+            <option value="茶漬金桔">灌餡口味：茶漬金桔</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCartFlavor('canele-rum','灌餡可麗露｜朗姆香草基底',100,'flavor-canele-rum')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/05-canele-tea.png" alt="灌餡可麗露 茶基底"></div>
+        <div class="body">
+          <h3>灌餡可麗露｜茶基底</h3>
+          <p class="desc">外層蜂膠、發酵奶油製成封殼。兩天靜置麵糊需提前預訂（單次訂購 10 顆以上製作）。</p>
+          <select class="flavor-select ui" id="flavor-canele-tea">
+            <option value="紅烏龍">灌餡口味：紅烏龍</option>
+            <option value="日式焙茶">灌餡口味：日式焙茶</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCartFlavor('canele-tea','灌餡可麗露｜茶基底',100,'flavor-canele-tea')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/06-biscotti.png" alt="Biscotti"></div>
+        <div class="body">
+          <h3>Biscotti</h3>
+          <p class="desc">義大利西西里島特選粗研磨杏仁粉、各國茶葉研磨成粉、自烘台灣水果果乾（同口味 6 片一份）。</p>
+          <select class="flavor-select ui" id="flavor-biscotti">
+            <option value="A.觀音茶鳳梨">A. 觀音茶鳳梨</option>
+            <option value="B.蜜蘋茶草莓" disabled>B. 蜜蘋茶草莓（售完）</option>
+            <option value="C.紅烏龍茶無花果">C. 紅烏龍茶無花果</option>
+          </select>
+          <div class="price-row">
+            <span class="price ui">NT$250 / 6片</span>
+            <button class="add-btn ui" onclick="addToCartFlavor('biscotti','Biscotti（6片）',250,'flavor-biscotti')">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/07-financier.png" alt="楓糖脆皮費南雪"></div>
+        <div class="body">
+          <h3>楓糖脆皮費南雪（自慢推薦！）</h3>
+          <p class="desc">大量楓糖、蜂蜜、西西里杏仁粉，無添加泡打粉和麵粉，中間微黏牙、外皮酥脆。單入 $85／<b>四入 $320</b>／<b>六入 $480</b>，購物車會自動套用組合優惠。</p>
+          <div class="price-row">
+            <span class="price ui">NT$85 起</span>
+            <button class="add-btn ui" onclick="addToCart('financier','楓糖脆皮費南雪（單入）',85)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/08-scone-salty-sweet.png" alt="脆皮鹹甜司康"></div>
+        <div class="body">
+          <h3>脆皮鹹甜司康</h3>
+          <p class="desc">不加牛奶，只加滿滿法國鮮奶油，鬆、脆、香，保持濕潤口感。</p>
+          <div class="price-row">
+            <span class="price ui">NT$90 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('scone-plain','脆皮鹹甜司康',90)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/09-scone-pumpkin.png" alt="香料南瓜乳酪鹹甜司康"></div>
+        <div class="body">
+          <h3>香料南瓜乳酪鹹甜司康</h3>
+          <p class="desc">綿密香料南瓜泥配上 cream cheese，像一杯濃郁的季節限定南瓜拿鐵。</p>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('scone-pumpkin','香料南瓜乳酪鹹甜司康',100)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/10-scone-taro.png" alt="香濃芋泥鹹甜司康"></div>
+        <div class="body">
+          <h3>香濃芋泥鹹甜司康</h3>
+          <p class="desc">混合鮮奶油、鮮奶的濃郁芋泥，滿足所有芋泥控。</p>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('scone-taro','香濃芋泥鹹甜司康',100)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/11-scone-taro-mochi.png" alt="香濃芋泥麻糬QQ鹹甜司康"></div>
+        <div class="body">
+          <h3>香濃芋泥麻糬QQ鹹甜司康</h3>
+          <p class="desc">配上 QQ 鮮奶麻糬，三重口感在口中爆發。</p>
+          <div class="price-row">
+            <span class="price ui">NT$110 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('scone-taro-mochi','香濃芋泥麻糬QQ鹹甜司康',110)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/12-scone-honglurong.png" alt="紅烏龍香橙乳酪脆皮司康"></div>
+        <div class="body">
+          <h3>紅烏龍香橙乳酪脆皮司康</h3>
+          <p class="desc">淋上紅烏龍甘那許。</p>
+          <div class="price-row">
+            <span class="price ui">NT$100 / 個</span>
+            <button class="add-btn ui" onclick="addToCart('scone-honglurong','紅烏龍香橙乳酪脆皮司康',100)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="subcat-panel" id="subpanel-rolls" style="display:none">
+    <h3 class="subcat-title" style="margin-top:0;padding-top:0;border-top:none">肉桂捲</h3>
+    <p class="subcat-note">五種自選香料研磨成粉，麵包體加入大量楓糖，外脆內軟 Q 勁道，會先灌醬、之後封保鮮膜和油紙。可自由混搭口味與數量，購物車會自動套用優惠：<b>2 個 $320</b>｜<b>4 個 $630</b>｜<b>6 個 $940</b>（其餘數量取最划算組合計算）。</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/16-cinnamon-apple.png" alt="焦糖蘋果肉桂捲"></div>
+        <div class="body">
+          <h3>焦糖蘋果肉桂捲（自慢推薦！）</h3>
+          <p class="desc">會先灌醬，之後封保鮮膜和油紙。</p>
+          <div class="price-row">
+            <span class="price ui">NT$160</span>
+            <button class="add-btn ui" onclick="addToCart('cinnamon-apple','焦糖蘋果肉桂捲',160)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/17-cinnamon-yuzu.png" alt="日本柚子乳酪肉桂捲"></div>
+        <div class="body">
+          <h3>日本柚子乳酪肉桂捲</h3>
+          <p class="desc">會先灌醬，之後封保鮮膜和油紙。</p>
+          <div class="price-row">
+            <span class="price ui">NT$160</span>
+            <button class="add-btn ui" onclick="addToCart('cinnamon-yuzu','日本柚子乳酪肉桂捲',160)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/18-cinnamon-cardamom-hojicha.png" alt="綠豆蔻焙茶捲"></div>
+        <div class="body">
+          <h3>綠豆蔻焙茶捲（限定，暫停）</h3>
+          <p class="desc">季節限定口味，目前暫停供應。</p>
+          <div class="price-row">
+            <span class="price tbd ui">暫停供應</span>
+            <button class="add-btn disabled ui">暫停供應</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/19-cinnamon-cardamom-cocoa.png" alt="綠豆蔻觀音茶可可捲"></div>
+        <div class="body">
+          <h3>綠豆蔻觀音茶可可捲（限定，暫停）</h3>
+          <p class="desc">季節限定口味，目前暫停供應。</p>
+          <div class="price-row">
+            <span class="price tbd ui">暫停供應</span>
+            <button class="add-btn disabled ui">暫停供應</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/20-cinnamon-lemon-masala.png" alt="檸檬糖霜masala捲"></div>
+        <div class="body">
+          <h3>檸檬糖霜 masala 捲（限定，暫停）</h3>
+          <p class="desc">季節限定口味，目前暫停供應。</p>
+          <div class="price-row">
+            <span class="price tbd ui">暫停供應</span>
+            <button class="add-btn disabled ui">暫停供應</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subcat-title">鹽奶油捲</h3>
+    <p class="subcat-note">加入大量楓糖的麵體，靜置一晚後回烤，外酥內 Q。使用 AOP 發酵奶油、加拿大楓糖、葛宏德海鹽，刷上自製香草液發酵。</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/21-butter-roll-guerande.png" alt="葛宏德鹽奶油捲"></div>
+        <div class="body">
+          <h3>葛宏德鹽奶油捲</h3>
+          <div class="price-row">
+            <span class="price ui">NT$55</span>
+            <button class="add-btn ui" onclick="addToCart('butter-guerande','葛宏德鹽奶油捲',55)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/22-butter-roll-rocksugar.png" alt="冰糖鹽奶油捲"></div>
+        <div class="body">
+          <h3>冰糖鹽奶油捲</h3>
+          <div class="price-row">
+            <span class="price ui">NT$55</span>
+            <button class="add-btn ui" onclick="addToCart('butter-rocksugar','冰糖鹽奶油捲',55)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/23-butter-roll-makauy.png" alt="馬告香料鹽奶油捲"></div>
+        <div class="body">
+          <h3>馬告香料鹽奶油捲</h3>
+          <div class="price-row">
+            <span class="price ui">NT$55</span>
+            <button class="add-btn ui" onclick="addToCart('butter-makauy','馬告香料鹽奶油捲',55)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/24-butter-roll-cinnamon.png" alt="肉桂堅果生乳鹽奶油捲"></div>
+        <div class="body">
+          <h3>肉桂堅果生乳鹽奶油捲</h3>
+          <div class="price-row">
+            <span class="price ui">NT$95</span>
+            <button class="add-btn ui" onclick="addToCart('butter-cinnamon','肉桂堅果生乳鹽奶油捲',95)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/25-butter-roll-garlic-honey.png" alt="大蒜蜂蜜鹽奶油捲"></div>
+        <div class="body">
+          <h3>大蒜蜂蜜鹽奶油捲</h3>
+          <div class="price-row">
+            <span class="price ui">NT$95</span>
+            <button class="add-btn ui" onclick="addToCart('butter-garlic-honey','大蒜蜂蜜鹽奶油捲',95)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="subcat-panel" id="subpanel-boxes" style="display:none">
+    <p class="subcat-note">需單獨冷藏配送，550ml 方型盒，10 x 10 x 5.8 cm。</p>
+    <div class="mini-strip">
+      <img src="../素材/常態甜點/26-dessert-box-fruit.png" alt="水果盒子系列（季節水果限定）">
+      <img src="../素材/常態甜點/29-dessert-box-taro-category.png" alt="芋泥便當（僅冷藏）">
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/27-dessert-box-hojicha-cherry.png" alt="焙茶櫻桃香橙乳酪盒"></div>
+        <div class="body">
+          <h3>焙茶櫻桃香橙乳酪盒（售完）</h3>
+          <p class="desc">焙茶奶凍／雙層櫻桃／香橙乳酪霜／伯爵蜂蜜蛋糕／焙茶莓果鮮奶油。</p>
+          <div class="price-row">
+            <span class="price tbd ui">NT$400（售完）</span>
+            <button class="add-btn disabled ui">已售完</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/28-dessert-box-yuzu-mango.png" alt="日本柚子芒果盒"></div>
+        <div class="body">
+          <h3>日本柚子芒果盒（夏季限定）</h3>
+          <p class="desc">雙層金煌芒果／日本柚子凝乳／櫻桃香草鮮奶油／伯爵蜂蜜蛋糕／蜂蜜香草卡士達。</p>
+          <p class="item-note">水果類商品若選擇冷凍宅配，退冰後水果容易出水、影響口感，建議自取或冷藏宅配品嚐風味最佳。</p>
+          <div class="price-row">
+            <span class="price ui">NT$400</span>
+            <button class="add-btn ui" onclick="addToCart('yuzu-mango-box','日本柚子芒果盒',400)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="thumb"><img src="../素材/常態甜點/30-dessert-box-taro.png" alt="芋泥便當"></div>
+        <div class="body">
+          <h3>芋泥便當</h3>
+          <p class="desc">芋泥／手工鮮奶麻糬／鹹蛋黃醬／伯爵蜂蜜蛋糕，附酥脆肉鬆海苔。無法冷凍宅配，僅冷藏或自取。</p>
+          <p class="item-note">可與其他甜點一起裝箱冷藏宅配或自取；僅無法選擇黑貓冷凍宅配。</p>
+          <div class="price-row">
+            <span class="price ui">NT$420</span>
+            <button class="add-btn ui" onclick="addToCart('taro-bento','芋泥便當',420)">加入購物車</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 默契公約 ================= -->
+<section class="block" id="agreement">
+  <h2 class="sec-title">默契公約</h2>
+  <p class="sec-sub">訂購前請先讀過，這是陌花與每位客人之間的默契。</p>
+
+  <div class="agreement-group">
+    <h4 class="agreement-group-title">聯繫與應對</h4>
+    <ul class="agreement-list">
+      <li><span class="mark">◆</span>一律透過 LINE@ 聯繫，僅接受禮貌私訊；FB 和 IG 不接受訂單，僅供瀏覽與追蹤。</li>
+      <li><span class="mark">◆</span>一人作業，回覆可能稍慢，敬請見諒；請勿遲到，若提早到也請稍候呦。</li>
+      <li><span class="mark">◆</span>同一品項的配方與味道可能會有些許調整；若偏好精品包裝，這裡不太適合你呦。</li>
+    </ul>
+  </div>
+
+  <div class="agreement-group">
+    <h4 class="agreement-group-title">訂購與自取時間</h4>
+    <ul class="agreement-list">
+      <li><span class="mark">◆</span>手作蛋糕需要時間醞釀，自取日期依當月產能安排公告，請至少提前一週預定。</li>
+      <li><span class="mark">◆</span>自取日期／時段：日期依當月產能安排公告，請以結帳頁面顯示為準，時段固定 16:30、17:00、17:30 三選一；中秋禮盒另有專屬自取日，不與一般自取日共用。</li>
+    </ul>
+  </div>
+
+  <div class="agreement-group">
+    <h4 class="agreement-group-title">宅配與運費</h4>
+    <div class="fee-table-wrap">
+      <table class="fee-table">
+        <tr><th>商品類型</th><th>可選取貨方式</th><th>運費怎麼算</th></tr>
+        <tr><td>大尺吋蛋糕</td><td>自取／黑貓冷凍宅配</td><td>每顆 <b>NT$250</b>（2 顆 <b>NT$500</b>，以此類推），與其他品項<b>分開下單、分開算運費</b></td></tr>
+        <tr><td>禮盒／餅乾／司康／Medovik 等</td><td>自取／黑貓冷凍宅配</td><td>訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b></td></tr>
+        <tr><td>水果盒</td><td>自取／黑貓冷凍宅配／冷藏宅配</td><td>同上分級費率；冷凍退冰易出水，建議自取或冷藏宅配風味最佳</td></tr>
+        <tr><td>芋泥便當</td><td>自取／冷藏宅配（不支援冷凍）</td><td>同上分級費率；可與其他商品一起裝箱冷藏宅配</td></tr>
+      </table>
+    </div>
+    <p class="warn-note ui" style="margin-top:14px">
+      <b>＊注意</b><br>
+      <b>宅配皆有毀損風險，週日、國定假日、颱風天不配送，請完美主義者評估後再選擇此方式。</b><br>
+      <b>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。</b>
+    </p>
+  </div>
+
+  <div class="agreement-group">
+    <h4 class="agreement-group-title">包材加購</h4>
+    <ul class="agreement-list">
+      <li><span class="mark">◆</span>常態甜點單品已依數量裝入合適包裝，如需另外拆成多份小包裝，加購紙袋 NT$10、紙盒 NT$20。自備提袋與保冷袋更環保。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 聯繫 / 抵達 ================= -->
+<section class="block" id="visit">
+  <h2 class="sec-title">聯繫與抵達</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <h4 class="ui">如何聯繫</h4>
+      <p>訂購、報名、詢問，一律透過 LINE@。</p>
+      <p><a href="https://line.me/R/ti/p/@818rntfj" target="_blank">@818rntfj</a></p>
+    </div>
+    <div class="info-card">
+      <h4 class="ui">如何抵達</h4>
+      <p>鄰近捷運景平站及秀朗橋站（環狀線）。</p>
+      <p>秀峰街 99 號，按「4 樓門鈴」，門會開啟；工作室位於老公寓 5 樓，沒有電梯。</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="social-row ui">
+    <a href="https://line.me/R/ti/p/@818rntfj" target="_blank">LINE@</a>
+    <a href="https://www.instagram.com/mohua.lab_ile/" target="_blank">Instagram</a>
+    <a href="https://www.threads.com/@mohualab" target="_blank">Threads</a>
+  </div>
+  <p class="fine ui">© 陌花 MOHUA</p>
+</footer>
+
+<!-- ================= 購物車 Drawer ================= -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+<div class="drawer ui" id="drawer">
+  <div class="drawer-head">
+    <h3 id="drawerTitle">購物車</h3>
+    <button class="drawer-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cartView">
+    <div class="empty-cart">購物車還是空的，去挑幾樣喜歡的甜點吧！</div>
+  </div>
+  <div class="drawer-foot" id="cartFoot" style="display:none">
+    <div class="subtotal-row"><span>合計</span><b id="subtotalText">NT$0</b></div>
+    <p class="ui" style="font-size:.78rem;color:var(--ink-soft);margin:-8px 0 14px">選擇黑貓宅配時，運費會於結帳時計算加總</p>
+    <button class="checkout-btn" onclick="proceedToCheckout()">前往結帳</button>
+    <button class="back-link" style="margin-top:10px" onclick="clearCart()">清空購物車</button>
+  </div>
+</div>
+
+<!-- ================= 蛋糕單獨下訂提醒 ================= -->
+<div class="modal-mask" id="cakeNotice" onclick="if(event.target===this) closeCakeNotice()">
+  <div class="modal-card ui" role="dialog" aria-modal="true" aria-labelledby="cakeNoticeTitle">
+    <h4 id="cakeNoticeTitle">🎂 蛋糕需要單獨下單呦!</h4>
+    <p>麻煩需要與其他甜點分開下單:)</p>
+    <button class="modal-ok" onclick="closeCakeNotice()">好</button>
+  </div>
+</div>
+
+<script>
+const LINE_OA = '@818rntfj';
+const BANK = { name: '第一銀行 (007)', account: '09310156011', holder: '陌花工作室' };
+
+function copyBankAccount(btn){
+  if(!navigator.clipboard || !navigator.clipboard.writeText){
+    alert('自動複製失敗，請手動複製帳號：' + BANK.account);
+    return;
+  }
+  navigator.clipboard.writeText(BANK.account).then(() => {
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 1400);
+  }).catch(() => {
+    alert('自動複製失敗，請手動複製帳號：' + BANK.account);
+  });
+}
+
+// 手機上打完字（例如匯款後五碼）直接手指不離開螢幕點下一顆按鈕時，iOS 常常第一下點擊只拿去收鍵盤、
+// 不會真的觸發按鈕的 click，畫面看起來像完全沒反應；改成手指「碰到」按鈕的當下就先收鍵盤，
+// 等鍵盤收起、版面穩定後才觸發 click，兩件事分開就不會互相吃掉
+function blurActiveField(){
+  const el = document.activeElement;
+  if(el && el !== document.body && typeof el.blur === 'function') el.blur();
+}
+
+// LINE 電腦版無法用網址直接帶入預填訊息（line.me/R/oaMessage 只有手機能跳轉成功，電腦版會被導回 LINE 官網首頁），
+// 只能請客人自己貼上送出。以前是「複製＋跳轉」一次自動做完，但兩件事疊在一起，
+// 中間任何一步卡住（跳轉被擋、複製權限問題）客人完全看不出來發生什麼事，會慌。
+// 改成訂單成立後留在頁面上顯示完整內容＋兩顆各自獨立的按鈕（複製／前往 LINE@），
+// 客人自己按順序來，就算其中一顆沒反應，畫面上的文字還在，還是能手動複製貼上。
+function copyOrderText(btn){
+  const original = btn.textContent;
+  if(!navigator.clipboard || !navigator.clipboard.writeText){
+    alert('自動複製失敗，請手動選取上方框框裡的文字複製');
+    return;
+  }
+  navigator.clipboard.writeText(lastOrderText).then(() => {
+    btn.textContent = '已複製 ✓';
+    setTimeout(() => { btn.textContent = original; }, 1800);
+  }).catch(() => {
+    alert('自動複製失敗，請手動選取上方框框裡的文字複製');
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+// 訂單同時送一份進陌花訂單後臺（Cloudflare Worker + D1）。
+// LINE 那邊是客人跟豬皮溝通的地方，後臺才是真正的訂單紀錄——購物車這裡已經把品項、
+// 折扣、運費、取貨方式全部算好了，直接整包送過去，就不用再從 LINE 對話裡逐句拼湊。
+// 這條線任何環節壞掉都不能影響客人送出訂單，所以整段吞掉錯誤、不擋流程。
+const ORDER_API = 'https://mohua-orders.jujuby117.workers.dev/api/intake';
+
+// 這份是 preview 測試版，跟正式站共用同一個訂單後臺 API（後臺沒有另外開一組測試環境）。
+// 怕豬皮在這邊按完整流程測試時，後臺真的多一筆看起來像客人下單的紀錄，
+// 所以姓名前面加個【測試】，後臺列表一眼就看得出來這筆不是真客人
+function postOrderToBackend(d, last5, rawText){
+  try{
+    const isPickup = d.pickup === '工作室自取';
+    // 蛋糕時間需求併進客人備註送出，後臺 schema 不用另外加欄位就看得到
+    const cakeTime = activeCakeTimeNote();
+    const custNote = [d.note || '', cakeTime ? `蛋糕日期／時間需求：${cakeTime}` : '']
+      .filter(Boolean).join('\n');
+    const payload = {
+      name: '【測試】' + d.name,
+      contact: d.contact,
+      delivery: d.pickup,
+      pickup_date: isPickup ? d.day : '',
+      pickup_slot: isPickup ? d.slot : '',
+      address: isPickup ? '' : d.address,
+      items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+      fee_lines: feeBreakdownLines(d.pickup),
+      card_notes: cardNotes.map(n => (n || '').trim()),
+      subtotal: cartTotal(),
+      shipping: deliveryFee(d.pickup),
+      total: grandTotal(d.pickup),
+      cust_note: custNote,
+      last5: last5,
+      raw_text: rawText
+    };
+    fetch(ORDER_API, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+  } catch(err){
+    /* 後臺掛掉也不能擋住客人下單，靜靜跳過就好 */
+  }
+}
+
+let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
+let cardNotes = JSON.parse(localStorage.getItem('mohua_cardnotes') || '[]');
+let cakeTimeNote = localStorage.getItem('mohua_caketime') || '';
+let view = 'cart'; // 'cart' | 'checkout' | 'transfer' | 'done'
+let orderDraft = null;
+
+// 混車提醒跳一次就好，之後同一車再加東西不重複跳（會很煩）；
+// 按「前往結帳」被擋下來時會再跳一次，那時是真的要看
+let cakeNoticeShown = false;
+
+function saveCakeTimeNote(){ localStorage.setItem('mohua_caketime', cakeTimeNote); }
+function updateCakeTimeNote(value){ cakeTimeNote = value; saveCakeTimeNote(); }
+
+function showCakeNotice(){
+  cakeNoticeShown = true;
+  document.getElementById('cakeNotice').classList.add('open');
+}
+function closeCakeNotice(){
+  document.getElementById('cakeNotice').classList.remove('open');
+}
+
+function saveCardNotes(){ localStorage.setItem('mohua_cardnotes', JSON.stringify(cardNotes)); }
+function updateCardNote(index, value){ cardNotes[index] = value; saveCardNotes(); }
+function clearCart(){
+  if(cart.length === 0) return;
+  if(!confirm('確定要清空購物車嗎？')) return;
+  cart = [];
+  cardNotes = [];
+  cakeTimeNote = '';
+  cakeNoticeShown = false;
+  saveCakeTimeNote();
+  saveCardNotes();
+  saveCart();
+}
+
+function deliveryFee(pickup){
+  if(pickup === '工作室自取') return 0;
+  if(pickup === SPLIT_DELIVERY){
+    return cakeShipQty()*250 + tieredFee(splitFrozenOtherSubtotal()) + tieredFee(splitRefrigeratedSubtotal());
+  }
+  return cakeShipQty()*250 + tieredFee(otherSubtotal());
+}
+function grandTotal(pickup){ return cartTotal() + deliveryFee(pickup); }
+
+function saveCart(){ localStorage.setItem('mohua_cart', JSON.stringify(cart)); renderCart(); }
+
+function addToCart(id, name, price){
+  const existing = cart.find(i => i.id === id);
+  if(existing){ existing.qty += 1; } else { cart.push({id, name, price, qty:1}); }
+  saveCart();
+  openCart();
+  // 蛋糕混到其他甜點裡就跳提醒（不管是先放蛋糕再加甜點、還是反過來）
+  if(isMixedCart() && !cakeNoticeShown) showCakeNotice();
+}
+// 數量變動時讓數字跳一下再彈回，純視覺回饋；renderCart() 每次都會整段重繪，所以在 saveCart() 之後、
+// 新的 DOM 元素已經存在時才能加 class 觸發 transition
+function popQty(elId){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.classList.add('pop');
+  setTimeout(() => el.classList.remove('pop'), 320);
+}
+function changeQty(id, delta){
+  const item = cart.find(i => i.id === id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0){ cart = cart.filter(i => i.id !== id); }
+  saveCart();
+  popQty('qty-' + id);
+}
+function setQty(id, value){
+  const n = parseInt(value, 10);
+  const item = cart.find(i => i.id === id);
+  if(!item) return;
+  if(!n || n <= 0){ cart = cart.filter(i => i.id !== id); } else { item.qty = n; }
+  saveCart();
+  popQty('qty-' + id);
+}
+function removeItem(id){ cart = cart.filter(i => i.id !== id); saveCart(); }
+
+function setAddonQty(id, name, price, delta){
+  const item = cart.find(i => i.id === id);
+  if(item){
+    item.qty += delta;
+    if(item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  } else if(delta > 0){
+    cart.push({id, name, price, qty:1});
+  }
+  saveCart();
+  popQty('qtyaddon-' + id);
+}
+
+const BUNDLE_GROUPS = [
+  { ids: ['cinnamon-apple','cinnamon-yuzu'], unit: 160, tiers: [[6,940],[4,630],[2,320]], label: '肉桂捲組合優惠' },
+  { ids: ['financier'], unit: 85, tiers: [[6,480],[4,320]], label: '費南雪組合優惠' },
+];
+function bundleOptimalPrice(qty, unit, tiers){
+  const best = new Array(qty+1).fill(0);
+  for(let n=1;n<=qty;n++){
+    best[n] = best[n-1] + unit;
+    for(const [count, price] of tiers){
+      if(n - count >= 0) best[n] = Math.min(best[n], best[n-count] + price);
+    }
+  }
+  return best[qty];
+}
+function bundleDiscount(group){
+  const qty = cart.filter(i => group.ids.includes(i.id)).reduce((s,i)=> s+i.qty, 0);
+  if(qty === 0) return 0;
+  return qty*group.unit - bundleOptimalPrice(qty, group.unit, group.tiers);
+}
+function totalBundleDiscount(){ return BUNDLE_GROUPS.reduce((s,g)=> s+bundleDiscount(g), 0); }
+
+function cartTotal(){ return cart.reduce((sum,i)=> sum + i.price*i.qty, 0) - totalBundleDiscount(); }
+function cartCount(){ return cart.reduce((sum,i)=> sum + i.qty, 0); }
+
+const CAKE_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-control8','yuzu-sesame6','yuzu-sesame8','seasonal-fruit6','seasonal-fruit8','medovik-cake','medovik'];
+const CAKE_SHIP_IDS = ['honglurong-apple6','honglurong-apple8','taro-control6','taro-control8','yuzu-sesame6','yuzu-sesame8','seasonal-fruit6','seasonal-fruit8'];
+const TARO_ID = 'taro-bento';
+function isCakeItem(id){ return CAKE_IDS.includes(id) || id.startsWith('custom-cake-'); }
+function isCakeShipItem(id){ return CAKE_SHIP_IDS.includes(id) || id.startsWith('custom-cake-'); }
+function hasTaro(){ return cart.some(i => i.id === TARO_ID); }
+function cakeQty(){ return cart.filter(i => isCakeItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
+function cakeShipQty(){ return cart.filter(i => isCakeShipItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
+// 蛋糕被移光之後，之前打的時間需求就不該再跟著訂單跑出去，統一從這裡取值
+function activeCakeTimeNote(){ return cakeQty() > 0 ? cakeTimeNote.trim() : ''; }
+// 蛋糕跟其他甜點的取貨方式不一樣（蛋糕每顆單獨算運費、常常得自取），沒辦法算成同一筆訂單，
+// 所以混在一起時直接擋下結帳，請客人分開下單。曲線蠟燭是蛋糕的加購，算蛋糕那邊
+function isCakeSideItem(id){ return isCakeItem(id) || id === 'candle'; }
+function hasNonCakeItem(){ return cart.some(i => !isCakeSideItem(i.id)); }
+function isMixedCart(){ return cakeQty() > 0 && hasNonCakeItem(); }
+function otherSubtotal(){ return cart.filter(i => !isCakeShipItem(i.id)).reduce((s,i)=> s+i.price*i.qty, 0) - totalBundleDiscount(); }
+function tieredFee(subtotal){ if(subtotal <= 0) return 0; return subtotal >= 4000 ? 290 : 250; }
+
+const FRUIT_BOX_IDS = ['yuzu-mango-box'];
+// 拆單時：水果盒、費南雪、biscotti 冷凍冷藏都能放（預設走冷凍，但沒有其他冷凍品項強制要求時，可以跟芋泥便當／水果盒併同一趟冷藏），不用自己另外多開一筆冷凍運費
+function isFlexibleShipItem(id){ return FRUIT_BOX_IDS.includes(id) || id === 'financier' || id.startsWith('biscotti-'); }
+function splitFrozenOtherSubtotal(){ return cart.filter(i => !isCakeShipItem(i.id) && i.id !== TARO_ID && !isFlexibleShipItem(i.id)).reduce((s,i)=> s+i.price*i.qty, 0) - totalBundleDiscount(); }
+function splitRefrigeratedSubtotal(){ return cart.filter(i => i.id === TARO_ID || isFlexibleShipItem(i.id)).reduce((s,i)=> s+i.price*i.qty, 0); }
+function hasFruitBox(){ return cart.some(i => FRUIT_BOX_IDS.includes(i.id)); }
+function hasNonTaro(){ return cart.some(i => i.id !== TARO_ID); }
+const GIFTBOX_IDS = ['giftbox-big','giftbox-small','giftbox-berry','furoshiki','mooncake-4','mooncake-6','sesame-mochi-1','sesame-mochi-6'];
+const ADDON_IDS = ['candle','bag','box'];
+function hasRegularItem(){ return cart.some(i => !isCakeItem(i.id) && !GIFTBOX_IDS.includes(i.id) && !ADDON_IDS.includes(i.id)); }
+
+// 一般月份自取日期（非中秋禮盒商品用）——由 Juby 自己決定每個月開哪幾天，額滿或該月不開就把日期從陣列移除，留空＝該期間不開放自取（結帳頁只會顯示宅配選項）
+// 2026-07-28：8、9 月一般自取皆已額滿，故留空
+const PICKUP_DATES = [];
+
+// 中秋禮盒專屬自取日期——只有購物車含中秋禮盒商品（見 MIDAUTUMN_IDS）時才會用到這組，跟一般月份自取分開排，不互相影響
+const MIDAUTUMN_IDS = ['mooncake-4','mooncake-6','sesame-mochi-1','sesame-mochi-6'];
+const MIDAUTUMN_PICKUP_DATES = [
+  { date: '2026-09-20', label: '9月20日（日）' },
+];
+function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
+// 購物車只要有中秋禮盒商品，不管有沒有混搭其他一般商品，一律用中秋自取日期（不做拆單，中秋禮盒沒有冷凍/冷藏物理衝突，不需要這麼複雜）
+function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
+function pickupOpen(){ return activePickupDates().length > 0; }
+
+function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, basePrice); }
+
+const SPLIT_DELIVERY = '宅配（自動拆單）';
+// 胡蘿蔔蛋糕（8吋整顆）、檸檬塔、Medovik 也是整顆蛋糕/塔，宅配一樣要冷凍，但運費仍走一般分級（不是每顆$250），跟 CAKE_SHIP_IDS 分開算
+const OTHER_FROZEN_IDS = ['carrot-cake-8','lemon-tart','medovik','medovik-cake'];
+function needsFrozenShipping(id){ return isCakeShipItem(id) || OTHER_FROZEN_IDS.includes(id); }
+function hasFrozenRequiredItem(){ return cart.some(i => needsFrozenShipping(i.id)); }
+function isSplitNeeded(){ return hasTaro() && hasFrozenRequiredItem(); }
+
+function feeBreakdownLines(pickup){
+  if(pickup === '工作室自取') return [];
+  const lines = [];
+  const cakeQ = cakeShipQty();
+  if(cakeQ > 0) lines.push(`大尺吋蛋糕（${cakeQ} 顆）運費　NT$${cakeQ*250}`);
+  if(pickup === SPLIT_DELIVERY){
+    const otherAmt = splitFrozenOtherSubtotal();
+    if(otherAmt > 0) lines.push(`其他甜點（黑貓冷凍宅配）運費　NT$${tieredFee(otherAmt)}`);
+    const taroAmt = splitRefrigeratedSubtotal();
+    if(taroAmt > 0){
+      const hasExtra = cart.some(i => isFlexibleShipItem(i.id));
+      const label = hasExtra ? '芋泥便當＋其他可冷藏品項（冷藏宅配）運費' : '芋泥便當（冷藏宅配）運費';
+      lines.push(`${label}　NT$${tieredFee(taroAmt)}`);
+    }
+  } else {
+    const otherAmt = otherSubtotal();
+    if(otherAmt > 0){
+      const label = pickup === '冷藏宅配' ? '冷藏宅配運費' : '其他甜點運費';
+      lines.push(`${label}　NT$${tieredFee(otherAmt)}`);
+    }
+  }
+  return lines;
+}
+
+// 「工作室自取」這個選項一律都在清單裡（額滿也不從清單消失，只是變成不能選＋標示已額滿），
+// 跟個別日期額滿「列出來但標灰」的原則一致，不要為了省事又改回直接隱藏
+function availableDeliveryMethods(){
+  const pickup = ['工作室自取'];
+  if(isSplitNeeded()) return [...pickup, SPLIT_DELIVERY];
+  if(hasTaro()) return [...pickup, '冷藏宅配'];
+  if(hasFrozenRequiredItem()) return [...pickup, '黑貓冷凍宅配'];
+  if(hasFruitBox()) return [...pickup, '黑貓冷凍宅配','冷藏宅配'];
+  return [...pickup, '黑貓冷凍宅配'];
+}
+
+const MIN_QTY_RULES = [
+  { prefix: 'dacquoise-', label: '達克瓦茲' },
+  { prefix: 'canele-rum-', label: '灌餡可麗露｜朗姆香草基底' },
+  { prefix: 'canele-tea-', label: '灌餡可麗露｜茶基底' },
+];
+function checkMinQty(){
+  for(const rule of MIN_QTY_RULES){
+    const qty = cart.filter(i => i.id.startsWith(rule.prefix)).reduce((s,i)=> s+i.qty, 0);
+    if(qty > 0 && qty < 10) return `${rule.label} 單次需訂購 10 顆以上（目前 ${qty} 顆），請調整數量再結帳`;
+  }
+  return null;
+}
+function proceedToCheckout(){
+  if(isMixedCart()){ showCakeNotice(); return; }
+  const err = checkMinQty();
+  if(err){ alert(err); return; }
+  showCheckout();
+}
+
+function deliveryNoteFor(value){
+  if(value === SPLIT_DELIVERY) return [
+    '購物車內同時有需冷凍與需冷藏（芋泥便當）的品項，將自動拆成兩件宅配寄出，運費分開計算：',
+    '・黑貓冷凍宅配',
+    '・冷藏宅配（芋泥便當）',
+    '',
+    '<b>下方填寫的地址會同時套用在這兩件包裹上，要寄到不同地址請分成兩次下單。</b>'
+  ].join('<br>');
+  if(value === '冷藏宅配') return [
+    '冷藏宅配運費比照黑貓冷凍宅配費率：',
+    '訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b>。'
+  ].join('<br>');
+  if(value === '黑貓冷凍宅配') return [
+    '黑貓低溫宅配運費：',
+    '・禮盒／餅乾／司康／Medovik 等：訂單滿 NT$4,000 收 <b>NT$290</b>，不滿收 <b>NT$250</b>',
+    '・大尺吋蛋糕：每顆 <b>NT$250</b>，與其他品項分開下單'
+  ].join('<br>');
+  return '';
+}
+
+// 兩句注意事項不管選哪種宅配都要出現，統一從這裡產生，避免三個分支各寫一份寫到不一致
+function deliveryWarnBlock(){
+  const cakeLine = cakeQty() > 0
+    ? '<br><b>蛋糕碰撞風險較高，宅配過程如有晃動、傾倒造成的變形或裂痕，恕無法退換，若非常在意賣相請選擇工作室自取。</b>'
+    : '';
+  return '<b>＊注意</b><br><b>宅配皆有毀損風險，週日、國定假日、颱風天不配送，請完美主義者評估後再選擇此方式。</b>' + cakeLine;
+}
+
+function openCart(){
+  view = 'cart';
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+  renderCart();
+}
+function closeCart(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+function renderCart(){
+  document.getElementById('cartCount').textContent = cartCount();
+  if(view !== 'cart') return;
+  document.getElementById('drawerTitle').textContent = '購物車';
+  const cartView = document.getElementById('cartView');
+  const foot = document.getElementById('cartFoot');
+  if(cart.length === 0){
+    cartView.innerHTML = '<div class="empty-cart">購物車還是空的，去挑幾樣喜歡的甜點吧！</div>';
+    foot.style.display = 'none';
+    return;
+  }
+  if(!hasRegularItem() && cart.some(i => i.id === 'bag' || i.id === 'box')){
+    cart = cart.filter(i => i.id !== 'bag' && i.id !== 'box');
+    localStorage.setItem('mohua_cart', JSON.stringify(cart));
+  }
+  let addonRow = '';
+  if(cakeQty() > 0){
+    const n = cakeQty();
+    if(cardNotes.length > n){ cardNotes.length = n; saveCardNotes(); }
+    addonRow += `
+    <div class="addon-row">
+      <div style="margin-bottom:14px">
+        <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕日期／時間需求（選填，可再跟皮討論）</label>
+        <input type="text" maxlength="60" placeholder="例如：希望 9/20 前拿到，或想約週末下午" value="${cakeTimeNote.replace(/"/g,'&quot;')}" oninput="updateCakeTimeNote(this.value)" class="flavor-select ui" style="width:100%">
+      </div>
+      <div class="addon-item" style="margin-bottom:10px">
+        <span>加購｜曲線蠟燭<span class="note ui">　插在蛋糕上，增添生日氣氛</span></span>
+        <div class="qty-stepper">
+          <button onclick="setAddonQty('candle','加購｜曲線蠟燭',10,-1)">−</button>
+          <span id="qtyaddon-candle" class="qty-count">${(cart.find(i=>i.id==='candle')||{qty:0}).qty}</span>
+          <button onclick="setAddonQty('candle','加購｜曲線蠟燭',10,1)">＋</button>
+        </div>
+      </div>
+      ${Array.from({length:n}).map((_,idx) => `
+        <div style="margin-bottom:10px">
+          <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕 ${idx+1}｜小卡祝福語（選填，簡短即可）</label>
+          <input type="text" maxlength="40" placeholder="例如：Dear my baby, happy birthday" value="${(cardNotes[idx]||'').replace(/"/g,'&quot;')}" oninput="updateCardNote(${idx}, this.value)" class="flavor-select ui" style="width:100%">
+        </div>
+      `).join('')}
+      <p class="item-note">小卡免費贈送，卡片不大，簡短祝福語即可，會出現在訂單訊息裡方便皮手寫轉印。</p>
+    </div>`;
+  }
+  if(hasRegularItem()){
+    addonRow += `
+    <div class="addon-row">
+      <div class="addon-item">
+        <span>折口牛皮紙袋　NT$10</span>
+        <div class="qty-stepper">
+          <button onclick="setAddonQty('bag','加購｜牛皮紙袋',10,-1)">−</button>
+          <span id="qtyaddon-bag" class="qty-count">${(cart.find(i=>i.id==='bag')||{qty:0}).qty}</span>
+          <button onclick="setAddonQty('bag','加購｜牛皮紙袋',10,1)">＋</button>
+        </div>
+      </div>
+      <div class="addon-item">
+        <span>紙盒　NT$20</span>
+        <div class="qty-stepper">
+          <button onclick="setAddonQty('box','加購｜紙盒',20,-1)">−</button>
+          <span id="qtyaddon-box" class="qty-count">${(cart.find(i=>i.id==='box')||{qty:0}).qty}</span>
+          <button onclick="setAddonQty('box','加購｜紙盒',20,1)">＋</button>
+        </div>
+      </div>
+      <p class="item-note">常態甜點單品本來就會依數量裝進合適的包裝盒／袋；如果想額外拆成好幾份小包裝（例如六入分兩盒裝），可自行加購。</p>
+    </div>`;
+  }
+  const discountRows = BUNDLE_GROUPS.map(g => {
+    const d = bundleDiscount(g);
+    return d > 0 ? `
+    <div class="cart-item" style="color:var(--accent)">
+      <div style="flex:1"><p class="ci-name"><b>${g.label}（已自動套用）</b></p></div>
+      <div><b>－NT$${d.toLocaleString()}</b></div>
+    </div>` : '';
+  }).join('');
+  // 擋結帳的警示放最上面，客人一打開購物車就看得到，不要埋在品項清單下面
+  const mixedWarn = isMixedCart()
+    ? `<p class="alert-note ui"><b>🎂 蛋糕需要單獨下單呦!</b><br>麻煩需要與其他甜點分開下單:)</p>`
+    : '';
+  cartView.innerHTML = mixedWarn + cart.filter(i => !ADDON_IDS.includes(i.id)).map(i => `
+    <div class="cart-item">
+      <div style="flex:1">
+        <p class="ci-name">${i.name}</p>
+        <p class="ci-price">NT$${i.price} / 份</p>
+        <div class="qty-stepper">
+          <button onclick="changeQty('${i.id}',-1)">−</button>
+          <input type="number" id="qty-${i.id}" class="qty-count" min="1" value="${i.qty}" onchange="setQty('${i.id}', this.value)" style="width:48px;text-align:center;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font-family:inherit;font-size:.9rem">
+          <button onclick="changeQty('${i.id}',1)">＋</button>
+        </div>
+      </div>
+      <button class="remove-item" onclick="removeItem('${i.id}')">移除</button>
+    </div>
+  `).join('') + discountRows + addonRow;
+  foot.style.display = 'block';
+  document.getElementById('subtotalText').textContent = 'NT$' + cartTotal().toLocaleString();
+}
+
+function showCheckout(){
+  view = 'checkout';
+  document.getElementById('drawerTitle').textContent = '填寫訂購資訊';
+  document.getElementById('cartFoot').style.display = 'none';
+  const d = orderDraft || {};
+  const taro = hasTaro();
+  const methods = availableDeliveryMethods();
+  const pickupSelectable = pickupOpen();
+  const selectableMethods = pickupSelectable ? methods : methods.filter(m => m !== '工作室自取');
+  const selected = selectableMethods.includes(d.pickup) ? d.pickup : selectableMethods[0];
+  const isDelivery = selected !== '工作室自取';
+  const pickupDates = activePickupDates();
+  const selectedDate = pickupDates.some(pd => pd.label === d.day) ? d.day : (pickupDates[0] ? pickupDates[0].label : '');
+  const radiosHtml = methods.map(m => {
+    const isPickup = m === '工作室自取';
+    const disabled = isPickup && !pickupSelectable;
+    const suffix = disabled ? '（已額滿）' : '';
+    return `<label class="${disabled?'radio-disabled':''}"><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} ${disabled?'disabled':''} onchange="togglePickupSlot()"> ${m}${suffix}</label>`;
+  }).join('');
+  document.getElementById('cartView').innerHTML = `
+    <button class="back-link" onclick="backToCart()">← 返回購物車</button>
+    <div class="co-form">
+      <div>
+        <label>取貨方式</label>
+        <div class="radio-row">
+          ${radiosHtml}
+        </div>
+      </div>
+      <div id="pickupField" style="${isDelivery?'display:none':''}">
+        <label>自取日期</label>
+        ${pickupDates.length ? `
+        <select id="pickupDateSelect">
+          ${pickupDates.map(pd => `<option value="${pd.label}" ${pd.label===selectedDate?'selected':''}>${pd.label}</option>`).join('')}
+        </select>` : '<p class="ui" style="margin:4px 0 0">目前尚未開放自取日期</p>'}
+        <label style="margin-top:10px">自取時段</label>
+        <select id="pickupSlot">
+          <option value="16:30" ${d.slot==='16:30'?'selected':''}>16:30</option>
+          <option value="17:00" ${d.slot==='17:00'?'selected':''}>17:00</option>
+          <option value="17:30" ${d.slot==='17:30'?'selected':''}>17:30</option>
+        </select>
+        <p class="warn-note ui" style="margin-top:10px">麻煩自備提袋、保冰袋，工作室包材準備得比較精簡，先跟你說一聲。</p>
+        ${cakeQty() > 0 ? '<p class="warn-note ui" style="margin-top:10px">蛋糕預訂請提前一週，才能安排製作時間喔。</p>' : ''}
+      </div>
+      <div id="addressField" style="${isDelivery?'':'display:none'}">
+        <div class="field">
+          <input type="text" id="custAddress" value="${d.address||''}" placeholder=" ">
+          <label>宅配地址</label>
+        </div>
+        <p class="warn-note ui" id="deliveryNote" style="margin-top:10px">${deliveryNoteFor(selected)}</p>
+        <p class="alert-note ui" id="deliveryWarn">${deliveryWarnBlock()}</p>
+      </div>
+      <div class="field">
+        <input type="text" id="custName" value="${d.name||''}" placeholder=" ">
+        <label>姓名</label>
+      </div>
+      <div class="field">
+        <input type="tel" id="custContact" value="${d.contact||''}" placeholder=" ">
+        <label>聯絡方式</label>
+      </div>
+      <div>
+        <label>備註（過敏原、用途等）</label>
+        <textarea id="custNote" placeholder="選填">${d.note||''}</textarea>
+      </div>
+      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="showTransfer()">下一步：轉帳資訊</button>
+    </div>
+  `;
+}
+
+function togglePickupSlot(){
+  const pickup = document.querySelector('input[name=pickup]:checked').value;
+  const isDelivery = pickup !== '工作室自取';
+  document.getElementById('pickupField').style.display = isDelivery ? 'none' : 'block';
+  document.getElementById('addressField').style.display = isDelivery ? 'block' : 'none';
+  const noteEl = document.getElementById('deliveryNote');
+  if(noteEl) noteEl.innerHTML = deliveryNoteFor(pickup);
+  const warnEl = document.getElementById('deliveryWarn');
+  if(warnEl) warnEl.innerHTML = deliveryWarnBlock();
+}
+
+function backToCart(){ view = 'cart'; renderCart(); document.getElementById('cartFoot').style.display = cart.length ? 'block' : 'none'; document.getElementById('drawerTitle').textContent = '購物車'; }
+
+function showTransfer(){
+  const name = document.getElementById('custName').value.trim();
+  const contact = document.getElementById('custContact').value.trim();
+  const pickup = document.querySelector('input[name=pickup]:checked').value;
+  const isDelivery = pickup !== '工作室自取';
+  const address = isDelivery ? document.getElementById('custAddress').value.trim() : '';
+
+  if(!name || !contact){ alert('請填寫姓名與聯絡方式喔'); return; }
+  if(isDelivery && !address){ alert('請填寫宅配地址喔'); return; }
+  if(cart.length === 0){ alert('購物車是空的'); return; }
+
+  orderDraft = {
+    name, contact, pickup, address,
+    day: pickup === '工作室自取' ? document.getElementById('pickupDateSelect').value : '',
+    slot: pickup === '工作室自取' ? document.getElementById('pickupSlot').value : '',
+    note: document.getElementById('custNote').value.trim(),
+  };
+
+  view = 'transfer';
+  document.getElementById('drawerTitle').textContent = '轉帳資訊';
+  const fee = deliveryFee(pickup);
+  const total = grandTotal(pickup);
+  const d = orderDraft;
+
+  const itemLines = cart.filter(i => !ADDON_IDS.includes(i.id))
+    .map(i => `${i.name} x${i.qty}　NT$${(i.price*i.qty).toLocaleString()}`)
+    .concat(cart.filter(i => ADDON_IDS.includes(i.id)).map(i => `${i.name} x${i.qty}　NT$${(i.price*i.qty).toLocaleString()}`))
+    .concat(BUNDLE_GROUPS.map(g => { const dd = bundleDiscount(g); return dd > 0 ? `${g.label}　－NT$${dd}` : null; }).filter(Boolean))
+    .join('<br>');
+
+  const pickupLine = pickup === '工作室自取'
+    ? `工作室自取（${d.day} ${d.slot}）`
+    : `${pickup}｜${d.address}`;
+
+  const feeLines = feeBreakdownLines(pickup);
+
+  document.getElementById('cartView').innerHTML = `
+    <button class="back-link" onclick="showCheckout()">← 返回填寫資料</button>
+    <div class="co-form">
+      <div class="warn-note ui">
+        <b>訂單內容確認</b><br><br>
+        ${itemLines}
+        <br><br>
+        取貨方式：${pickupLine}<br>
+        姓名：${d.name}｜聯絡方式：${d.contact}
+        ${d.note ? `<br>備註：${d.note}` : ''}
+        ${activeCakeTimeNote() ? `<br>蛋糕日期／時間需求：${activeCakeTimeNote()}` : ''}
+      </div>
+      <div class="warn-note ui">
+        商品小計　NT$${cartTotal().toLocaleString()}
+        ${feeLines.length ? '<br>' + feeLines.map(l => l.replace(/(NT\$[\d,]+)/g, '<b>$1</b>')).join('<br>') : ''}
+        <br><br>
+        應付總額　<b class="total-amount">NT$${total.toLocaleString()}</b>
+        <br><br>
+        請於 24 小時內完成匯款至：
+        <div class="bank-block">
+          <div class="bank-name">${BANK.name}</div>
+          <div class="bank-account"><span style="white-space:nowrap">${BANK.account}</span><button type="button" class="copy-btn" onclick="copyBankAccount(this)" aria-label="複製帳號"><span class="copy-icon"><svg class="ic-copy" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="8" height="8" rx="1.5"/><path d="M3.5 10.5V3.5a1 1 0 0 1 1-1H11"/></svg><svg class="ic-check" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3.2L13 4.5"/></svg></span></button></div>
+          <div class="bank-holder">戶名　<span style="white-space:nowrap">${BANK.holder}</span></div>
+        </div>
+        <br>
+        匯款後請填寫「匯款帳號後五碼」並送出，收到陌花回覆貼圖即代表訂購成功。逾時未付款訂單將自動取消。
+      </div>
+      <div class="field">
+        <input type="text" id="last5" placeholder=" " maxlength="5">
+        <label>匯款帳號後五碼</label>
+      </div>
+      <p class="item-note">使用電腦瀏覽器的朋友，建議先用手機 LINE 加陌花為好友（<a href="https://line.me/ti/p/@818rntfj" target="_blank">@818rntfj</a>），等等前往 LINE@ 時才不會卡在加好友的 QR Code 畫面。</p>
+      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="finalizeOrder()">確認訂單 →</button>
+    </div>
+  `;
+}
+
+let lastOrderText = '';
+
+function finalizeOrder(){
+  const last5 = document.getElementById('last5').value.trim();
+  if(!last5){ alert('請填寫匯款帳號後五碼喔'); return; }
+
+  const d = orderDraft;
+  const total = grandTotal(d.pickup);
+
+  let lines = ['【陌花線上訂購】',''];
+  cart.forEach(i => lines.push(`${i.name} x${i.qty}　NT$${i.price*i.qty}`));
+  BUNDLE_GROUPS.forEach(g => {
+    const discountAmt = bundleDiscount(g);
+    if(discountAmt > 0) lines.push(`${g.label}　－NT$${discountAmt}`);
+  });
+  lines.push('');
+  lines.push(`小計：NT$${cartTotal().toLocaleString()}`);
+  feeBreakdownLines(d.pickup).forEach(line => lines.push(line.replace('　', '：')));
+  lines.push(`應付總額：NT$${total.toLocaleString()}`);
+  lines.push('');
+  if(d.pickup === '工作室自取'){
+    lines.push(`取貨方式：工作室自取（${d.day} ${d.slot}）`);
+  } else if(d.pickup === SPLIT_DELIVERY){
+    lines.push(`取貨方式：自動拆單宅配（蛋糕／其他甜點走黑貓冷凍宅配，芋泥便當走冷藏宅配）`);
+    lines.push(`宅配地址：${d.address}`);
+  } else {
+    lines.push(`取貨方式：${d.pickup}`);
+    lines.push(`宅配地址：${d.address}`);
+  }
+  lines.push(`姓名：${d.name}`);
+  lines.push(`聯絡方式：${d.contact}`);
+  if(d.note) lines.push(`備註：${d.note}`);
+  if(activeCakeTimeNote()) lines.push(`蛋糕日期／時間需求：${activeCakeTimeNote()}`);
+  if(cardNotes.some(n => n && n.trim())){
+    lines.push('');
+    lines.push('小卡留言：');
+    cardNotes.forEach((n,idx) => { if(n && n.trim()) lines.push(`蛋糕 ${idx+1}：${n.trim()}`); });
+  }
+  lines.push('');
+  lines.push(`匯款帳號後五碼：${last5}`);
+  lines.push(`（匯至 ${BANK.name} ${BANK.account} ${BANK.holder}）`);
+
+  lastOrderText = lines.join('\n');
+  postOrderToBackend(d, last5, lastOrderText);   // 一定要在清空購物車之前送，後臺這邊訂單已經算成立了
+
+  cart = [];
+  cardNotes = [];
+  cakeTimeNote = '';
+  cakeNoticeShown = false;
+  orderDraft = null;
+  saveCakeTimeNote();
+  saveCardNotes();
+  saveCart();
+
+  showOrderDone();
+}
+
+// 訂單資料已經送進後臺，接下來這步只是把同一份內容遞給客人自己複製貼到 LINE，
+// 複製跟跳轉分成兩顆各自獨立的按鈕，就算其中一顆在客人手機上沒反應，
+// 畫面上的文字還在，還是能長按選取手動複製，不會卡住不知道下一步要幹嘛
+function showOrderDone(){
+  view = 'done';
+  document.getElementById('drawerTitle').textContent = '訂單已成立';
+  document.getElementById('cartFoot').style.display = 'none';
+  document.getElementById('cartView').innerHTML = `
+    <div class="warn-note ui"><b>訂單內容已經記錄下來了，最後一步：把下面內容複製貼到 LINE@ 送出</b></div>
+    <div class="warn-note ui" style="white-space:pre-wrap;font-size:.85rem">${escapeHtml(lastOrderText)}</div>
+    <button class="checkout-btn" onclick="copyOrderText(this)">📋 複製訂單內容</button>
+    <button class="checkout-btn" style="margin-top:10px" onclick="window.open('https://line.me/ti/p/${LINE_OA}','_blank')">前往 LINE@ →</button>
+    <p class="item-note" style="margin-top:12px">步驟：先按「複製訂單內容」，再按「前往 LINE@」，到對話框長按畫面選「貼上」（電腦版 Ctrl+V）後送出。收到陌花回覆貼圖即代表訂購成功。</p>
+  `;
+}
+
+function updateSizedPrice(selectId, priceId){
+  const [, price] = document.getElementById(selectId).value.split('|');
+  document.getElementById(priceId).textContent = 'NT$' + Number(price).toLocaleString();
+}
+function addToCartSized(baseId, baseName, selectId){
+  const [size, price] = document.getElementById(selectId).value.split('|');
+  addToCart(baseId + size, `${baseName}（${size}吋）`, Number(price));
+}
+
+const CUSTOM_CAKE_B_LABELS = {
+  '紅烏龍奶凍': '奶霜：紅烏龍奶凍',
+  '蜂蜜乳酪': '奶霜：蜂蜜乳酪',
+  '柚子乳糕': '奶霜：日本柚子乳糕',
+  '香橙乳酪霜': '奶霜：香橙乳酪霜',
+  '伯爵奶凍': '奶霜：伯爵奶凍',
+  '焙茶奶凍': '奶霜：焙茶奶凍'
+};
+const CUSTOM_CAKE_B_PAIRINGS = {
+  '燉蘋果': ['伯爵奶凍','焙茶奶凍'],
+  '芋泥': ['焙茶奶凍','紅烏龍奶凍'],
+  '柚子乳糕': ['伯爵奶凍','紅烏龍奶凍'],
+  '芒果': ['香橙乳酪霜','焙茶奶凍'],
+  '甜柿': ['伯爵奶凍','焙茶奶凍'],
+  '水蜜桃': ['伯爵奶凍','焙茶奶凍'],
+  '榴槤': ['焙茶奶凍','蜂蜜乳酪'],
+  '櫻桃': ['香橙乳酪霜','伯爵奶凍'],
+  '草莓': ['香橙乳酪霜','紅烏龍奶凍']
+};
+const CUSTOM_CAKE_C = {
+  '燉蘋果': '焦糖堅果脆',
+  '芋泥': '芝麻脆脆',
+  '柚子乳糕': '巧克力脆脆',
+  '芒果': '焦糖堅果脆',
+  '甜柿': '芝麻脆脆'
+};
+function updateCustomCakeB(){
+  const aSel = document.getElementById('custom-cake-a');
+  const bSel = document.getElementById('custom-cake-b');
+  const options = CUSTOM_CAKE_B_PAIRINGS[aSel.value] || Object.keys(CUSTOM_CAKE_B_LABELS);
+  bSel.innerHTML = options.map(v => `<option value="${v}">${CUSTOM_CAKE_B_LABELS[v]}</option>`).join('');
+  const cNote = document.getElementById('custom-cake-c-note');
+  const cFlavor = CUSTOM_CAKE_C[aSel.value];
+  cNote.textContent = cFlavor ? `已搭配口感：${cFlavor}` : '';
+}
+
+function addCustomCake(sizeSelectId, aSelectId, bSelectId){
+  const [size, price] = document.getElementById(sizeSelectId).value.split('|');
+  const aSel = document.getElementById(aSelectId);
+  const bSel = document.getElementById(bSelectId);
+  const aFlavor = aSel.options[aSel.selectedIndex].text.replace(/^基底：/,'');
+  const bFlavor = bSel.options[bSel.selectedIndex].text.replace(/^奶霜：/,'');
+  const cFlavor = CUSTOM_CAKE_C[aSel.value];
+  const id = `custom-cake-${size}-${aSel.value}-${bSel.value}`;
+  const name = cFlavor
+    ? `客製蛋糕｜${aFlavor}＋${bFlavor}＋${cFlavor}（${size}吋）`
+    : `客製蛋糕｜${aFlavor}＋${bFlavor}（${size}吋）`;
+  addToCart(id, name, Number(price));
+}
+
+function addToCartFlavor(baseId, baseName, price, selectId){
+  const sel = document.getElementById(selectId);
+  const flavor = sel.options[sel.selectedIndex].text.replace(/^[A-Z]\.\s*/,'').replace(/^灌餡口味：/,'');
+  const id = baseId + '-' + sel.value;
+  const name = baseName + '｜' + flavor;
+  addToCart(id, name, price);
+}
+
+function switchTab(cat){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+  document.querySelectorAll('.cat-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('panel-' + cat).style.display = 'block';
+}
+
+function switchSubTab(sub){
+  document.querySelectorAll('#panel-changtai .tabs .tab').forEach(t => t.classList.toggle('active', t.dataset.subcat === sub));
+  document.querySelectorAll('#panel-changtai .subcat-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('subpanel-' + sub).style.display = 'block';
+}
+
+const carouselState = {};
+function carouselGoTo(name, idx){
+  const dots = document.getElementById('carousel-'+name+'-dots').children;
+  idx = (idx + dots.length) % dots.length;
+  carouselState[name] = idx;
+  document.getElementById('carousel-'+name+'-track').style.transform = 'translateX(-' + (idx*100) + '%)';
+  Array.from(dots).forEach((d,i) => d.classList.toggle('active', i === idx));
+}
+function carouselMove(name, delta){
+  carouselGoTo(name, (carouselState[name]||0) + delta);
+}
+
+renderCart();
+updateCustomCakeB();
+</script>
+
+</body>
+</html>
