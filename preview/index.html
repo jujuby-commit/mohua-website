@@ -1383,6 +1383,7 @@ function showCheckout(){
           <option value="17:00" ${d.slot==='17:00'?'selected':''}>17:00</option>
           <option value="17:30" ${d.slot==='17:30'?'selected':''}>17:30</option>
         </select>
+        <p class="warn-note ui" style="margin-top:10px">麻煩自備提袋、保冰袋呦！</p>
         ${isCakePickup ? '<p class="warn-note ui" style="margin-top:10px">平日（週一至週五）自取將由小幫手代為面交，非本人親自交付；假日則由本人親自面交。</p>' : ''}
       </div>
       <div id="addressField" style="${isDelivery?'':'display:none'}">
