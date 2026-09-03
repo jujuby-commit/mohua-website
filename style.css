@@ -1,16 +1,17 @@
 /* --cocoa：比 --accent 更深的咖啡色，給金額這種要一眼看到的重點數字用 */
+/* --danger：全站唯一的紅色，只給「絕對不能漏看」的日期/期限用，平常警示文字走 --accent 就好 */
 :root{
   --bg:#fbf9f5; --ink:#2b2724; --ink-soft:#8c8175; --accent:#a3814f; --accent-2:#7c8570;
-  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527;
+  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; --danger:#c0392b;
 }
 @media (prefers-color-scheme: dark){
   :root{ --bg:#1a1715; --ink:#ece6de; --ink-soft:#a89a89; --accent:#c9a876; --accent-2:#9aab86;
-    --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; }
+    --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; --danger:#ef6f6a; }
 }
 :root[data-theme="dark"]{ --bg:#1a1715; --ink:#ece6de; --ink-soft:#a89a89; --accent:#c9a876; --accent-2:#9aab86;
-  --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; }
+  --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; --danger:#ef6f6a; }
 :root[data-theme="light"]{ --bg:#fbf9f5; --ink:#2b2724; --ink-soft:#8c8175; --accent:#a3814f; --accent-2:#7c8570;
-  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; }
+  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; --danger:#c0392b; }
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
