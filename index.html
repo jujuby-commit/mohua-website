@@ -891,6 +891,14 @@ function copyBankAccount(btn){
   });
 }
 
+// 手機上打完字（例如匯款後五碼）直接手指不離開螢幕點下一顆按鈕時，iOS 常常第一下點擊只拿去收鍵盤、
+// 不會真的觸發按鈕的 click，畫面看起來像完全沒反應；改成手指「碰到」按鈕的當下就先收鍵盤，
+// 等鍵盤收起、版面穩定後才觸發 click，兩件事分開就不會互相吃掉
+function blurActiveField(){
+  const el = document.activeElement;
+  if(el && el !== document.body && typeof el.blur === 'function') el.blur();
+}
+
 // LINE 電腦版無法用網址直接帶入預填訊息（line.me/R/oaMessage 只有手機能跳轉成功，電腦版會被導回 LINE 官網首頁），
 // 改成自動複製訂單文字＋開啟正確的 LINE 對話，請客人自己貼上送出
 // 注意：window.open() 一定要在點擊當下「同步」執行，等 clipboard.writeText 或 alert 跑完才開，
@@ -1367,7 +1375,7 @@ function showCheckout(){
         <label>備註（過敏原、用途等）</label>
         <textarea id="custNote" placeholder="選填">${d.note||''}</textarea>
       </div>
-      <button class="checkout-btn" onclick="showTransfer()">下一步：轉帳資訊</button>
+      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="showTransfer()">下一步：轉帳資訊</button>
     </div>
   `;
 }
@@ -1453,7 +1461,7 @@ function showTransfer(){
         <label>匯款帳號後五碼</label>
       </div>
       <p class="item-note">使用電腦瀏覽器的朋友，建議先用手機 LINE 加陌花為好友（<a href="https://line.me/ti/p/@818rntfj" target="_blank">@818rntfj</a>），送出時才不會卡在加好友的 QR Code 畫面。</p>
-      <button class="checkout-btn" onclick="sendToLine()">確認送出到 LINE@</button>
+      <button class="checkout-btn" onpointerdown="blurActiveField()" onclick="sendToLine()">確認送出到 LINE@</button>
     </div>
   `;
 }
