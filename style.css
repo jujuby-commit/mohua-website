@@ -274,7 +274,7 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
 /* ---------- checkout form ---------- */
 .co-form{display:grid;gap:14px;margin-top:6px}
 .co-form label{font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:5px}
-.co-form input[type=text],.co-form input[type=tel],.co-form textarea,.co-form select{
+.co-form input[type=text],.co-form input[type=tel],.co-form input[type=date],.co-form textarea,.co-form select{
   width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);
   background:var(--card);color:var(--ink);font-family:inherit;font-size:.92rem;
 }
