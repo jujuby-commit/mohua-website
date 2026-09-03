@@ -937,15 +937,11 @@ const ORDER_API = 'https://mohua-orders.jujuby117.workers.dev/api/intake';
 function postOrderToBackend(d, last5, rawText){
   try{
     const isPickup = d.pickup === '工作室自取';
-    // 蛋糕時間需求併進客人備註送出，後臺 schema 不用另外加欄位就看得到
-    const cakeTime = activeCakeTimeNote();
-    const custNote = [d.note || '', cakeTime ? `蛋糕日期／時間需求：${cakeTime}` : '']
-      .filter(Boolean).join('\n');
     const payload = {
       name: '【測試】' + d.name,
       contact: d.contact,
       delivery: d.pickup,
-      pickup_date: isPickup ? pickupDateDisplay(d) : '',
+      pickup_date: dateFieldDisplay(d.day),
       pickup_slot: isPickup ? d.slot : '',
       address: isPickup ? '' : d.address,
       items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
@@ -954,7 +950,7 @@ function postOrderToBackend(d, last5, rawText){
       subtotal: cartTotal(),
       shipping: deliveryFee(d.pickup),
       total: grandTotal(d.pickup),
-      cust_note: custNote,
+      cust_note: d.note || '',
       last5: last5,
       raw_text: rawText
     };
@@ -971,16 +967,12 @@ function postOrderToBackend(d, last5, rawText){
 
 let cart = JSON.parse(localStorage.getItem('mohua_cart') || '[]');
 let cardNotes = JSON.parse(localStorage.getItem('mohua_cardnotes') || '[]');
-let cakeTimeNote = localStorage.getItem('mohua_caketime') || '';
 let view = 'cart'; // 'cart' | 'checkout' | 'transfer' | 'done'
 let orderDraft = null;
 
 // 混車提醒跳一次就好，之後同一車再加東西不重複跳（會很煩）；
 // 按「前往結帳」被擋下來時會再跳一次，那時是真的要看
 let cakeNoticeShown = false;
-
-function saveCakeTimeNote(){ localStorage.setItem('mohua_caketime', cakeTimeNote); }
-function updateCakeTimeNote(value){ cakeTimeNote = value; saveCakeTimeNote(); }
 
 function showCakeNotice(){
   cakeNoticeShown = true;
@@ -997,9 +989,7 @@ function clearCart(){
   if(!confirm('確定要清空購物車嗎？')) return;
   cart = [];
   cardNotes = [];
-  cakeTimeNote = '';
   cakeNoticeShown = false;
-  saveCakeTimeNote();
   saveCardNotes();
   saveCart();
 }
@@ -1093,8 +1083,6 @@ function isCakeShipItem(id){ return CAKE_SHIP_IDS.includes(id) || id.startsWith(
 function hasTaro(){ return cart.some(i => i.id === TARO_ID); }
 function cakeQty(){ return cart.filter(i => isCakeItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
 function cakeShipQty(){ return cart.filter(i => isCakeShipItem(i.id)).reduce((s,i)=> s+i.qty, 0); }
-// 蛋糕被移光之後，之前打的時間需求就不該再跟著訂單跑出去，統一從這裡取值
-function activeCakeTimeNote(){ return cakeQty() > 0 ? cakeTimeNote.trim() : ''; }
 // 蛋糕跟其他甜點的取貨方式不一樣（蛋糕每顆單獨算運費、常常得自取），沒辦法算成同一筆訂單，
 // 所以混在一起時直接擋下結帳，請客人分開下單。曲線蠟燭是蛋糕的加購，算蛋糕那邊
 function isCakeSideItem(id){ return isCakeItem(id) || id === 'candle'; }
@@ -1139,16 +1127,35 @@ function cakePickupMinDate(){
   return d.toISOString().slice(0,10);
 }
 const WEEKDAY_LABEL = ['日','一','二','三','四','五','六'];
-function formatPickupDateLabel(isoStr){
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+function formatDateLabel(isoStr){
   if(!isoStr) return '';
   const d = new Date(isoStr + 'T00:00:00');
   if(isNaN(d)) return isoStr;
   return `${d.getMonth()+1}月${d.getDate()}日（${WEEKDAY_LABEL[d.getDay()]}）`;
 }
-// orderDraft.day 蛋糕訂單存的是 <input type="date"> 給的 ISO 字串（如 2026-09-15），
-// 其他自取都存現成的日期標籤字串，顯示時才統一轉成好讀格式，存的時候維持原始值
-// 是因為使用者可能從轉帳頁按回填寫資料，date input 需要吃得回 ISO 值才能還原選取狀態
-function pickupDateDisplay(d){ return cakeQty() > 0 ? formatPickupDateLabel(d.day) : d.day; }
+// orderDraft.day 蛋糕自取／宅配存的是 <input type="date"> 給的 ISO 字串（如 2026-09-15），
+// 一般自取／中秋自取存現成的日期標籤字串，顯示時才統一轉成好讀格式，存的時候維持原始值，
+// 是因為使用者可能從轉帳頁按回填寫資料，date input 需要吃得回 ISO 值才能還原選取狀態——
+// 用「存的是不是 ISO 格式」判斷要不要轉換，不用再去猜是蛋糕還是宅配
+function dateFieldDisplay(value){ return ISO_DATE_RE.test(value) ? formatDateLabel(value) : value; }
+
+function isSundayISO(isoStr){ return ISO_DATE_RE.test(isoStr) && new Date(isoStr + 'T00:00:00').getDay() === 0; }
+function nextNonSunday(isoStr){
+  const d = new Date(isoStr + 'T00:00:00');
+  if(d.getDay() === 0) d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0,10);
+}
+// 宅配不提供指定時段，只能選日期；週日不配送，選到週日就退回上一個選擇並提醒
+function deliveryMinDate(){ return nextNonSunday(new Date().toISOString().slice(0,10)); }
+function deliveryDateChanged(el){
+  if(el.value && isSundayISO(el.value)){
+    alert('黑貓宅配週日不配送，請改選其他日期喔');
+    el.value = el.dataset.lastValid || '';
+  } else {
+    el.dataset.lastValid = el.value;
+  }
+}
 
 function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, basePrice); }
 
@@ -1273,10 +1280,6 @@ function renderCart(){
     if(cardNotes.length > n){ cardNotes.length = n; saveCardNotes(); }
     addonRow += `
     <div class="addon-row">
-      <div style="margin-bottom:14px">
-        <label style="font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:4px">蛋糕日期／時間需求（選填，可再跟皮討論）</label>
-        <input type="text" maxlength="60" placeholder="例如：希望 9/20 前拿到，或想約週末下午" value="${cakeTimeNote.replace(/"/g,'&quot;')}" oninput="updateCakeTimeNote(this.value)" class="flavor-select ui" style="width:100%">
-      </div>
       <div class="addon-item" style="margin-bottom:10px">
         <span>加購｜曲線蠟燭<span class="note ui">　插在蛋糕上，增添生日氣氛</span></span>
         <div class="qty-stepper">
@@ -1362,6 +1365,8 @@ function showCheckout(){
   const selectedDate = pickupDates.some(pd => pd.label === d.day) ? d.day : (pickupDates[0] ? pickupDates[0].label : '');
   const cakeMinDate = cakePickupMinDate();
   const selectedCakeDate = d.day && d.day >= cakeMinDate ? d.day : cakeMinDate;
+  const deliveryMin = deliveryMinDate();
+  const selectedDeliveryDate = (ISO_DATE_RE.test(d.day) && d.day >= deliveryMin && !isSundayISO(d.day)) ? d.day : deliveryMin;
   const radiosHtml = methods.map(m => {
     const isPickup = m === '工作室自取';
     const disabled = isPickup && !pickupSelectable;
@@ -1396,6 +1401,9 @@ function showCheckout(){
         ${isCakePickup ? '<p class="warn-note ui" style="margin-top:10px">平日（週一至週五）自取將由小幫手代為面交，非本人親自交付；假日則由本人親自面交。</p>' : ''}
       </div>
       <div id="addressField" style="${isDelivery?'':'display:none'}">
+        <label>希望到貨日期</label>
+        <input type="date" id="deliveryDateSelect" min="${deliveryMin}" value="${selectedDeliveryDate}" data-last-valid="${selectedDeliveryDate}" onchange="deliveryDateChanged(this)">
+        <p class="ui" style="font-size:.78rem;color:var(--ink-soft);margin:4px 0 10px">宅配不提供指定時段，僅送達當日；週日不配送，建議抓比實際需要日期提早 1～2 天，避免颱風天等突發狀況延誤。</p>
         <div class="field">
           <input type="text" id="custAddress" value="${d.address||''}" placeholder=" ">
           <label>宅配地址</label>
@@ -1439,14 +1447,17 @@ function showTransfer(){
   const pickup = document.querySelector('input[name=pickup]:checked').value;
   const isDelivery = pickup !== '工作室自取';
   const address = isDelivery ? document.getElementById('custAddress').value.trim() : '';
+  const deliveryDate = isDelivery ? document.getElementById('deliveryDateSelect').value : '';
 
   if(!name || !contact){ alert('請填寫姓名與聯絡方式喔'); return; }
   if(isDelivery && !address){ alert('請填寫宅配地址喔'); return; }
+  if(isDelivery && !deliveryDate){ alert('請選擇希望到貨日期喔'); return; }
+  if(isDelivery && isSundayISO(deliveryDate)){ alert('黑貓宅配週日不配送，請改選其他日期喔'); return; }
   if(cart.length === 0){ alert('購物車是空的'); return; }
 
   orderDraft = {
     name, contact, pickup, address,
-    day: pickup === '工作室自取' ? document.getElementById('pickupDateSelect').value : '',
+    day: pickup === '工作室自取' ? document.getElementById('pickupDateSelect').value : deliveryDate,
     slot: pickup === '工作室自取' ? document.getElementById('pickupSlot').value : '',
     note: document.getElementById('custNote').value.trim(),
   };
@@ -1464,8 +1475,8 @@ function showTransfer(){
     .join('<br>');
 
   const pickupLine = pickup === '工作室自取'
-    ? `工作室自取（${pickupDateDisplay(d)} ${d.slot}）`
-    : `${pickup}｜${d.address}`;
+    ? `工作室自取（${dateFieldDisplay(d.day)} ${d.slot}）`
+    : `${pickup}｜希望到貨日：${dateFieldDisplay(d.day)}｜${d.address}`;
 
   const feeLines = feeBreakdownLines(pickup);
 
@@ -1479,7 +1490,6 @@ function showTransfer(){
         取貨方式：${pickupLine}<br>
         姓名：${d.name}｜聯絡方式：${d.contact}
         ${d.note ? `<br>備註：${d.note}` : ''}
-        ${activeCakeTimeNote() ? `<br>蛋糕日期／時間需求：${activeCakeTimeNote()}` : ''}
       </div>
       <div class="warn-note ui">
         商品小計　NT$${cartTotal().toLocaleString()}
@@ -1527,18 +1537,19 @@ function finalizeOrder(){
   lines.push(`應付總額：NT$${total.toLocaleString()}`);
   lines.push('');
   if(d.pickup === '工作室自取'){
-    lines.push(`取貨方式：工作室自取（${pickupDateDisplay(d)} ${d.slot}）`);
+    lines.push(`取貨方式：工作室自取（${dateFieldDisplay(d.day)} ${d.slot}）`);
   } else if(d.pickup === SPLIT_DELIVERY){
     lines.push(`取貨方式：自動拆單宅配（蛋糕／其他甜點走黑貓冷凍宅配，芋泥便當走冷藏宅配）`);
+    lines.push(`希望到貨日：${dateFieldDisplay(d.day)}`);
     lines.push(`宅配地址：${d.address}`);
   } else {
     lines.push(`取貨方式：${d.pickup}`);
+    lines.push(`希望到貨日：${dateFieldDisplay(d.day)}`);
     lines.push(`宅配地址：${d.address}`);
   }
   lines.push(`姓名：${d.name}`);
   lines.push(`聯絡方式：${d.contact}`);
   if(d.note) lines.push(`備註：${d.note}`);
-  if(activeCakeTimeNote()) lines.push(`蛋糕日期／時間需求：${activeCakeTimeNote()}`);
   if(cardNotes.some(n => n && n.trim())){
     lines.push('');
     lines.push('小卡留言：');
@@ -1553,10 +1564,8 @@ function finalizeOrder(){
 
   cart = [];
   cardNotes = [];
-  cakeTimeNote = '';
   cakeNoticeShown = false;
   orderDraft = null;
-  saveCakeTimeNote();
   saveCardNotes();
   saveCart();
 
