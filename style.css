@@ -1,19 +1,16 @@
-/* --cocoa：比 --accent 更深的咖啡色，給金額這種要一眼看到的重點數字用 */
-/* --red：真的紅色，跟 --accent／--cocoa 那組暖咖啡色系分開，專門給「要先去 LINE 問過才能填」這種提醒用 */
+/* --danger：全站唯一的紅色，只給「絕對不能漏看」的日期/期限用，平常警示文字走 --accent 就好 */
 :root{
   --bg:#fbf9f5; --ink:#2b2724; --ink-soft:#8c8175; --accent:#a3814f; --accent-2:#7c8570;
-  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527;
-  --red:#b3382c;
+  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; --danger:#c0392b;
 }
 @media (prefers-color-scheme: dark){
   :root{ --bg:#1a1715; --ink:#ece6de; --ink-soft:#a89a89; --accent:#c9a876; --accent-2:#9aab86;
-    --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1;
-    --red:#e2695b; }
+    --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; --danger:#ef6f6a; }
 }
 :root[data-theme="dark"]{ --bg:#1a1715; --ink:#ece6de; --ink-soft:#a89a89; --accent:#c9a876; --accent-2:#9aab86;
-  --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; --red:#e2695b; }
+  --line:rgba(236,230,222,.14); --card:#241f1c; --card-hover:#2d2723; --btn-ink:#1a1715; --cocoa:#d8c3a1; --danger:#ef6f6a; }
 :root[data-theme="light"]{ --bg:#fbf9f5; --ink:#2b2724; --ink-soft:#8c8175; --accent:#a3814f; --accent-2:#7c8570;
-  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; --red:#b3382c; }
+  --line:rgba(43,39,36,.10); --card:#f5f2ea; --card-hover:#ece6d9; --btn-ink:#fff; --cocoa:#5c4527; --danger:#c0392b; }
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -277,7 +274,7 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
 /* ---------- checkout form ---------- */
 .co-form{display:grid;gap:14px;margin-top:6px}
 .co-form label{font-size:.82rem;color:var(--ink-soft);display:block;margin-bottom:5px}
-.co-form input[type=text],.co-form input[type=tel],.co-form textarea,.co-form select{
+.co-form input[type=text],.co-form input[type=tel],.co-form input[type=date],.co-form textarea,.co-form select{
   width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);
   background:var(--card);color:var(--ink);font-family:inherit;font-size:.92rem;
 }
@@ -349,10 +346,10 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
   padding:12px 14px; margin:0 0 20px;
 }
 
-/* 常態自取日期還沒公告時，提醒客人先 LINE 問過再填日期——真的紅色，跟上面 alert-note 那種暖咖啡色系分開 */
+/* 常態自取日期還沒公告時，提醒客人先 LINE 問過再填日期——用全站唯一的 --danger 紅色 */
 .pickup-ask-note{
-  font-size:.85rem; line-height:1.7; color:var(--red);
-  background:var(--card); border:1px solid var(--red); border-radius:10px;
+  font-size:.85rem; line-height:1.7; color:var(--danger);
+  background:var(--card); border:1px solid var(--danger); border-radius:10px;
   padding:12px 14px; margin:10px 0 0;
 }
 
