@@ -1106,7 +1106,6 @@ const MIDAUTUMN_PICKUP_DATES = [
 function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
 // 購物車只要有中秋禮盒商品，不管有沒有混搭其他一般商品，一律用中秋自取日期（不做拆單，中秋禮盒沒有冷凍/冷藏物理衝突，不需要這麼複雜）
 function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
-function pickupOpen(){ return activePickupDates().length > 0; }
 
 // 中秋禮盒早鳥優惠：8/31（含當天）前下單享統一 95 折，之後恢復原價；單入酥餅份量小、單價低不參與早鳥，實際預購截止與自取安排仍以發文公告為準，這裡只管早鳥價怎麼算
 const MIDAUTUMN_EARLYBIRD_DEADLINE = '2026-08-31T23:59:59+08:00';
@@ -1164,8 +1163,8 @@ function feeBreakdownLines(pickup){
   return lines;
 }
 
-// 「工作室自取」這個選項一律都在清單裡（額滿也不從清單消失，只是變成不能選＋標示已額滿），
-// 跟個別日期額滿「列出來但標灰」的原則一致，不要為了省事又改回直接隱藏
+// 「工作室自取」這個選項一律都在清單裡、一律可選——常態自取日期還沒公告時，
+// 結帳頁會改成讓客人自己填想預約的日期並提示先 LINE 問過，見 showCheckout()
 function availableDeliveryMethods(){
   const pickup = ['工作室自取'];
   if(isSplitNeeded()) return [...pickup, SPLIT_DELIVERY];
@@ -1334,18 +1333,15 @@ function showCheckout(){
   const d = orderDraft || {};
   const taro = hasTaro();
   const methods = availableDeliveryMethods();
-  const pickupSelectable = pickupOpen();
-  const selectableMethods = pickupSelectable ? methods : methods.filter(m => m !== '工作室自取');
-  const selected = selectableMethods.includes(d.pickup) ? d.pickup : selectableMethods[0];
+  // 工作室自取一律可選——常態自取日期沒公告時（見下面 pickupDates.length 判斷），
+  // 改成讓客人自己填想預約的日期，先 LINE 問過再送單，不是直接把這個選項擋掉
+  const selected = methods.includes(d.pickup) ? d.pickup : methods[0];
   const isDelivery = selected !== '工作室自取';
   const pickupDates = activePickupDates();
   const selectedDate = pickupDates.some(pd => pd.label === d.day) ? d.day : (pickupDates[0] ? pickupDates[0].label : '');
-  const radiosHtml = methods.map(m => {
-    const isPickup = m === '工作室自取';
-    const disabled = isPickup && !pickupSelectable;
-    const suffix = disabled ? '（已額滿）' : '';
-    return `<label class="${disabled?'radio-disabled':''}"><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} ${disabled?'disabled':''} onchange="togglePickupSlot()"> ${m}${suffix}</label>`;
-  }).join('');
+  const radiosHtml = methods.map(m =>
+    `<label><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} onchange="togglePickupSlot()"> ${m}</label>`
+  ).join('');
   document.getElementById('cartView').innerHTML = `
     <button class="back-link" onclick="backToCart()">← 返回購物車</button>
     <div class="co-form">
@@ -1360,7 +1356,12 @@ function showCheckout(){
         ${pickupDates.length ? `
         <select id="pickupDateSelect">
           ${pickupDates.map(pd => `<option value="${pd.label}" ${pd.label===selectedDate?'selected':''}>${pd.label}</option>`).join('')}
-        </select>` : '<p class="ui" style="margin:4px 0 0">目前尚未開放自取日期</p>'}
+        </select>` : `
+        <div class="field">
+          <input type="text" id="pickupDateCustom" value="${d.day||''}" placeholder=" ">
+          <label>想預約的日期</label>
+        </div>
+        <p class="pickup-ask-note ui">常態自取日期目前還沒公告，麻煩先 LINE@ 豬皮詢問可預約的時間，確認後再填寫上去，接著就能匯款送出訂單囉。</p>`}
         <label style="margin-top:10px">自取時段</label>
         <select id="pickupSlot">
           <option value="16:30" ${d.slot==='16:30'?'selected':''}>16:30</option>
@@ -1414,14 +1415,20 @@ function showTransfer(){
   const pickup = document.querySelector('input[name=pickup]:checked').value;
   const isDelivery = pickup !== '工作室自取';
   const address = isDelivery ? document.getElementById('custAddress').value.trim() : '';
+  // 常態自取日期沒公告時，畫面上是 pickupDateCustom 這個文字框，不是 pickupDateSelect 下拉選單
+  const dateEl = document.getElementById('pickupDateSelect') || document.getElementById('pickupDateCustom');
 
   if(!name || !contact){ alert('請填寫姓名與聯絡方式喔'); return; }
   if(isDelivery && !address){ alert('請填寫宅配地址喔'); return; }
+  if(!isDelivery && dateEl && dateEl.id === 'pickupDateCustom' && !dateEl.value.trim()){
+    alert('請先 LINE@ 豬皮確認可預約的時間，再填寫想預約的日期喔');
+    return;
+  }
   if(cart.length === 0){ alert('購物車是空的'); return; }
 
   orderDraft = {
     name, contact, pickup, address,
-    day: pickup === '工作室自取' ? document.getElementById('pickupDateSelect').value : '',
+    day: pickup === '工作室自取' ? dateEl.value.trim() : '',
     slot: pickup === '工作室自取' ? document.getElementById('pickupSlot').value : '',
     note: document.getElementById('custNote').value.trim(),
   };
