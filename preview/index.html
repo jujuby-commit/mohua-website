@@ -936,7 +936,7 @@ const ORDER_API = 'https://mohua-orders.jujuby117.workers.dev/api/intake';
 // 所以姓名前面加個【測試】，後臺列表一眼就看得出來這筆不是真客人
 function postOrderToBackend(d, last5, rawText){
   try{
-    const isPickup = d.pickup === '工作室自取';
+    const isPickup = isPickupMethod(d.pickup);
     const payload = {
       name: '【測試】' + d.name,
       contact: d.contact,
@@ -995,7 +995,7 @@ function clearCart(){
 }
 
 function deliveryFee(pickup){
-  if(pickup === '工作室自取') return 0;
+  if(isPickupMethod(pickup)) return 0;
   if(pickup === SPLIT_DELIVERY){
     return cakeShipQty()*250 + tieredFee(splitFrozenOtherSubtotal()) + tieredFee(splitRefrigeratedSubtotal());
   }
@@ -1102,7 +1102,8 @@ const GIFTBOX_IDS = ['giftbox-big','giftbox-small','giftbox-berry','furoshiki','
 const ADDON_IDS = ['candle','bag','box'];
 function hasRegularItem(){ return cart.some(i => !isCakeItem(i.id) && !GIFTBOX_IDS.includes(i.id) && !ADDON_IDS.includes(i.id)); }
 
-// 一般月份自取日期（非中秋禮盒商品用）——由 Juby 自己決定每個月開哪幾天，額滿或該月不開就把日期從陣列移除，留空＝該期間不開放自取（結帳頁只會顯示宅配選項）
+// 一般月份自取日期（非中秋禮盒商品用）——由 Juby 自己決定每個月開哪幾天，額滿或該月不開就把日期從陣列移除，
+// 留空＝該期間刻意保持「額滿」的飢餓行銷效果，工作室自取鎖住不能選，但下面另外多一個「私訊討論」選項頂替
 // 2026-07-28：8、9 月一般自取皆已額滿，故留空
 const PICKUP_DATES = [];
 
@@ -1114,6 +1115,13 @@ const MIDAUTUMN_PICKUP_DATES = [
 function hasMidAutumn(){ return cart.some(i => MIDAUTUMN_IDS.includes(i.id)); }
 // 購物車只要有中秋禮盒商品，不管有沒有混搭其他一般商品，一律用中秋自取日期（不做拆單，中秋禮盒沒有冷凍/冷藏物理衝突，不需要這麼複雜）
 function activePickupDates(){ return hasMidAutumn() ? MIDAUTUMN_PICKUP_DATES : PICKUP_DATES; }
+
+// 一般常態自取「額滿」時（沒有中秋禮盒、也沒有蛋糕）刻意保留鎖住的樣子做飢餓行銷，
+// 但另外開一個獨立選項讓客人知道還有路可以走：私訊討論出時間後自己填上去
+const PICKUP_DISCUSS = '自取日額滿，私訊與豬皮討論';
+// 判斷某個取貨方式字串是不是「自取」的其中一種（工作室自取本尊／私訊討論這個替代選項），
+// 這兩種都不用填宅配地址、不收運費，很多地方要一起判斷，集中寫在這裡，不要到處重複比對字串
+function isPickupMethod(m){ return m === '工作室自取' || m === PICKUP_DISCUSS; }
 
 // 蛋糕自取日期下限抓「今天起算滿七天」，對齊「蛋糕預訂請提前一週」的提醒文字
 function cakePickupMinDate(){
@@ -1134,6 +1142,8 @@ function formatDateLabel(isoStr){
 // 是因為使用者可能從轉帳頁按回填寫資料，date input 需要吃得回 ISO 值才能還原選取狀態——
 // 用「存的是不是 ISO 格式」判斷要不要轉換，不用再去猜是蛋糕還是一般自取
 function dateFieldDisplay(value){ return ISO_DATE_RE.test(value) ? formatDateLabel(value) : value; }
+// 私訊討論那個選項沒有先填日期，客人送出訂單當下日期還沒喬好，顯示成「日期另約」而不是空白
+function pickupDateTimeLabel(d){ return d.day ? `${dateFieldDisplay(d.day)} ${d.slot}` : `日期另約　${d.slot}`; }
 
 function addMidAutumnItem(id, name, basePrice){ addToCart(id, name, basePrice); }
 
@@ -1145,7 +1155,7 @@ function hasFrozenRequiredItem(){ return cart.some(i => needsFrozenShipping(i.id
 function isSplitNeeded(){ return hasTaro() && hasFrozenRequiredItem(); }
 
 function feeBreakdownLines(pickup){
-  if(pickup === '工作室自取') return [];
+  if(isPickupMethod(pickup)) return [];
   const lines = [];
   const cakeQ = cakeShipQty();
   if(cakeQ > 0) lines.push(`大尺吋蛋糕（${cakeQ} 顆）運費　NT$${cakeQ*250}`);
@@ -1168,15 +1178,18 @@ function feeBreakdownLines(pickup){
   return lines;
 }
 
-// 「工作室自取」這個選項一律都在清單裡、一律可選——常態自取日期還沒公告時，
-// 結帳頁會改成讓客人自己填想預約的日期並提示先 LINE 問過，見 showCheckout()
+// 「工作室自取」這個選項一律都在清單裡（額滿也不從清單消失，只是變成不能選＋標示已額滿，
+// 蛋糕自取有自己的日期選擇不受這個限制）。一般常態自取額滿、又沒有蛋糕時，
+// 另外加一個「私訊與豬皮討論」選項頂替，客人還是有路可以走，見 showCheckout()
 function availableDeliveryMethods(){
   const pickup = ['工作室自取'];
-  if(isSplitNeeded()) return [...pickup, SPLIT_DELIVERY];
-  if(hasTaro()) return [...pickup, '冷藏宅配'];
-  if(hasFrozenRequiredItem()) return [...pickup, '黑貓冷凍宅配'];
-  if(hasFruitBox()) return [...pickup, '黑貓冷凍宅配','冷藏宅配'];
-  return [...pickup, '黑貓冷凍宅配'];
+  // 討論選項排在最後面，讓「工作室自取（已額滿）」跟宅配選項排版上緊接在一起
+  const discuss = (cakeQty() === 0 && activePickupDates().length === 0) ? [PICKUP_DISCUSS] : [];
+  if(isSplitNeeded()) return [...pickup, SPLIT_DELIVERY, ...discuss];
+  if(hasTaro()) return [...pickup, '冷藏宅配', ...discuss];
+  if(hasFrozenRequiredItem()) return [...pickup, '黑貓冷凍宅配', ...discuss];
+  if(hasFruitBox()) return [...pickup, '黑貓冷凍宅配','冷藏宅配', ...discuss];
+  return [...pickup, '黑貓冷凍宅配', ...discuss];
 }
 
 const MIN_QTY_RULES = [
@@ -1339,18 +1352,22 @@ function showCheckout(){
   const d = orderDraft || {};
   const taro = hasTaro();
   const methods = availableDeliveryMethods();
-  // 工作室自取一律可選——常態自取日期沒公告時，改成讓客人自己填想預約的日期，
-  // 先 LINE 問過再送單，不是直接把這個選項擋掉（蛋糕自取本來就有自己的日期選擇，不受這個影響）
-  const selected = methods.includes(d.pickup) ? d.pickup : methods[0];
-  const isDelivery = selected !== '工作室自取';
   const isCakePickup = cakeQty() > 0;
   const pickupDates = activePickupDates();
+  // 一般常態自取額滿、又沒有蛋糕時，「工作室自取」本尊維持鎖住（飢餓行銷），
+  // 但清單裡會多一個 PICKUP_DISCUSS 選項頂替，那個永遠不鎖
+  const pickupLocked = !isCakePickup && pickupDates.length === 0;
+  const selectableMethods = methods.filter(m => !(m === '工作室自取' && pickupLocked));
+  const selected = selectableMethods.includes(d.pickup) ? d.pickup : selectableMethods[0];
+  const isDelivery = !isPickupMethod(selected);
   const selectedDate = pickupDates.some(pd => pd.label === d.day) ? d.day : (pickupDates[0] ? pickupDates[0].label : '');
   const cakeMinDate = cakePickupMinDate();
   const selectedCakeDate = d.day && d.day >= cakeMinDate ? d.day : cakeMinDate;
-  const radiosHtml = methods.map(m =>
-    `<label><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} onchange="togglePickupSlot()"> ${m}</label>`
-  ).join('');
+  const radiosHtml = methods.map(m => {
+    const disabled = m === '工作室自取' && pickupLocked;
+    const suffix = disabled ? '（已額滿）' : '';
+    return `<label class="${disabled?'radio-disabled':''}"><input type="radio" name="pickup" value="${m}" ${m===selected?'checked':''} ${disabled?'disabled':''} onchange="togglePickupSlot()"> ${m}${suffix}</label>`;
+  }).join('');
   document.getElementById('cartView').innerHTML = `
     <button class="back-link" onclick="backToCart()">← 返回購物車</button>
     <div class="co-form">
@@ -1361,20 +1378,17 @@ function showCheckout(){
         </div>
       </div>
       <div id="pickupField" style="${isDelivery?'display:none':''}">
-        <label>自取日期</label>
         ${isCakePickup ? `
+        <label>自取日期</label>
         <input type="date" id="pickupDateSelect" min="${cakeMinDate}" value="${selectedCakeDate}">
         <p class="ui" style="font-size:.78rem;color:var(--ink-soft);margin:4px 0 0">蛋糕自取日期可自行選擇，需提前至少 7 天預訂。</p>
         ` : (pickupDates.length ? `
+        <label>自取日期</label>
         <select id="pickupDateSelect">
           ${pickupDates.map(pd => `<option value="${pd.label}" ${pd.label===selectedDate?'selected':''}>${pd.label}</option>`).join('')}
-        </select>` : `
-        <div class="field">
-          <input type="text" id="pickupDateCustom" value="${d.day||''}" placeholder=" ">
-          <label>想預約的日期</label>
-        </div>
-        <p class="pickup-ask-note ui">常態自取日期目前還沒公告，麻煩先 LINE@ 豬皮詢問可預約的時間，確認後再填寫上去，接著就能匯款送出訂單囉。</p>`)}
-        <label style="margin-top:10px">自取時段</label>
+        </select>
+        ` : '')}
+        <label${pickupDates.length || isCakePickup ? ' style="margin-top:10px"' : ''}>自取時段</label>
         <select id="pickupSlot">
           <option value="16:30" ${d.slot==='16:30'?'selected':''}>16:30</option>
           <option value="17:00" ${d.slot==='17:00'?'selected':''}>17:00</option>
@@ -1410,7 +1424,7 @@ function showCheckout(){
 
 function togglePickupSlot(){
   const pickup = document.querySelector('input[name=pickup]:checked').value;
-  const isDelivery = pickup !== '工作室自取';
+  const isDelivery = !isPickupMethod(pickup);
   document.getElementById('pickupField').style.display = isDelivery ? 'none' : 'block';
   document.getElementById('addressField').style.display = isDelivery ? 'block' : 'none';
   const noteEl = document.getElementById('deliveryNote');
@@ -1425,23 +1439,19 @@ function showTransfer(){
   const name = document.getElementById('custName').value.trim();
   const contact = document.getElementById('custContact').value.trim();
   const pickup = document.querySelector('input[name=pickup]:checked').value;
-  const isDelivery = pickup !== '工作室自取';
+  const isDelivery = !isPickupMethod(pickup);
   const address = isDelivery ? document.getElementById('custAddress').value.trim() : '';
-  // 常態自取日期沒公告時，畫面上是 pickupDateCustom 這個文字框，不是 pickupDateSelect 下拉選單
-  const dateEl = document.getElementById('pickupDateSelect') || document.getElementById('pickupDateCustom');
+  // 私訊討論那個選項沒有日期欄位（日期之後另外私訊喬，不在表單上填）,pickupDateSelect 抓不到就是 null
+  const dateEl = document.getElementById('pickupDateSelect');
 
   if(!name || !contact){ alert('請填寫姓名與聯絡方式喔'); return; }
   if(isDelivery && !address){ alert('請填寫宅配地址喔'); return; }
-  if(!isDelivery && dateEl && dateEl.id === 'pickupDateCustom' && !dateEl.value.trim()){
-    alert('請先 LINE@ 豬皮確認可預約的時間，再填寫想預約的日期喔');
-    return;
-  }
   if(cart.length === 0){ alert('購物車是空的'); return; }
 
   orderDraft = {
     name, contact, pickup, address,
-    day: pickup === '工作室自取' ? dateEl.value.trim() : '',
-    slot: pickup === '工作室自取' ? document.getElementById('pickupSlot').value : '',
+    day: (isPickupMethod(pickup) && dateEl) ? dateEl.value.trim() : '',
+    slot: isPickupMethod(pickup) ? document.getElementById('pickupSlot').value : '',
     note: document.getElementById('custNote').value.trim(),
   };
 
@@ -1457,8 +1467,8 @@ function showTransfer(){
     .concat(BUNDLE_GROUPS.map(g => { const dd = bundleDiscount(g); return dd > 0 ? `${g.label}　－NT$${dd}` : null; }).filter(Boolean))
     .join('<br>');
 
-  const pickupLine = pickup === '工作室自取'
-    ? `工作室自取（${dateFieldDisplay(d.day)} ${d.slot}）`
+  const pickupLine = isPickupMethod(pickup)
+    ? `工作室自取（${pickupDateTimeLabel(d)}）`
     : `${pickup}｜${d.address}`;
 
   const feeLines = feeBreakdownLines(pickup);
@@ -1520,7 +1530,7 @@ function finalizeOrder(){
   lines.push(`應付總額：NT$${total.toLocaleString()}`);
   lines.push('');
   if(d.pickup === '工作室自取'){
-    lines.push(`取貨方式：工作室自取（${dateFieldDisplay(d.day)} ${d.slot}）`);
+    lines.push(`取貨方式：工作室自取（${pickupDateTimeLabel(d)}）`);
   } else if(d.pickup === SPLIT_DELIVERY){
     lines.push(`取貨方式：自動拆單宅配（蛋糕／其他甜點走黑貓冷凍宅配，芋泥便當走冷藏宅配）`);
     lines.push(`宅配地址：${d.address}`);

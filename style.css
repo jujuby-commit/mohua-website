@@ -281,6 +281,7 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
 .co-form textarea{resize:vertical;min-height:60px}
 .radio-row{display:flex;gap:16px;font-size:.88rem;flex-wrap:wrap}
 .radio-row label{display:flex;align-items:center;gap:6px;color:var(--ink);margin:0}
+.radio-row label.radio-disabled{color:var(--ink-soft);cursor:not-allowed}
 .back-link{background:none;border:none;color:var(--ink-soft);font-size:.82rem;cursor:pointer;text-decoration:underline;margin-bottom:14px}
 
 /* 結帳表單浮動 label：輸入框內建提示文字，聚焦或已填寫時往上浮動縮小 */
@@ -344,13 +345,6 @@ footer .fine{color:var(--ink-soft);font-size:.8rem}
   font-size:.85rem; line-height:1.7; color:var(--accent);
   background:var(--card); border:1px solid var(--accent); border-radius:10px;
   padding:12px 14px; margin:0 0 20px;
-}
-
-/* 常態自取日期還沒公告時，提醒客人先 LINE 問過再填日期——用全站唯一的 --danger 紅色 */
-.pickup-ask-note{
-  font-size:.85rem; line-height:1.7; color:var(--danger);
-  background:var(--card); border:1px solid var(--danger); border-radius:10px;
-  padding:12px 14px; margin:10px 0 0;
 }
 
 /* 應付總額：整個結帳流程最重要的數字，用深咖啡跟旁邊的說明文字拉開 */
