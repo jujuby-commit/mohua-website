@@ -1370,6 +1370,7 @@ function showCheckout(){
         <div class="radio-row">
           ${radiosHtml}
         </div>
+        ${methods.includes(PICKUP_DISCUSS) ? '<p class="ui" style="color:var(--danger);font-size:.82rem;margin-top:8px">「自取日額滿，私訊與豬皮討論」需先私訊 LINE@ 豬皮，確認好可預約的時間後才能勾選這個選項喔。</p>' : ''}
       </div>
       <div id="pickupField" style="${isDelivery?'display:none':''}">
         ${isCakePickup ? `
